@@ -11,6 +11,10 @@ namespace Broker.web.Models
     {
         public IEnumerable<SelectListItem> Counties { get; set; }
 
+        public IEnumerable<SelectListItem> NoClaimsBonusList { get; set; }
+
+        public int NoClaimsBonus { get; set; }
+
         public int CountyId { get; set; }
 
         public int NoClaimsDiscount { get; set; }

@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System.Configuration;
+using Broker.Domain.Queries;
 using Broker.Persistance;
 using Broker.Service.Contracts;
+using Broker.Services;
 using Broker.web.Configuration;
 using System;
 using System.Web;
+using Broker.web.ModelBuilders;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Extensions.Conventions;
@@ -86,13 +89,14 @@ namespace Broker.web.App_Start
             // it takes all dlls with matching pattern and binds interfaces
             // like ISomeClass to SomeClass
             // if for any reason we need to exclude an object - please add it to ExcludeList method
-
+           
             kernel.Bind(x => x
-                .FromAssembliesMatching("Broker.*.dll")
+                .FromAssembliesMatching("Broker*.dll")
                 .SelectAllClasses()
                 .Excluding(ExcludeList())
                 .BindDefaultInterface()
                 .Configure(b => b.InRequestScope()));
+             
         }
 
         /// <summary>

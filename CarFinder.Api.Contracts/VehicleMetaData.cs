@@ -1,14 +1,5 @@
-﻿// <copyright company="Action Point Innovation Ltd.">
-// Copyright (c) 2013 All Right Reserved
-//
-// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY 
-// KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// PARTICULAR PURPOSE.
-//
-// </copyright>
+﻿
 
-using System;
 using System.Runtime.Serialization;
 
 namespace CarFinder.Api.Contracts
@@ -38,7 +29,7 @@ namespace CarFinder.Api.Contracts
         public string Transmission { get; set; }
 
         [DataMember]
-        public string NoDoors { get; set; }
+        public int NoDoors { get; set; }
 
         [DataMember]
         public int EngineSizeCC { get; set; }
@@ -51,6 +42,9 @@ namespace CarFinder.Api.Contracts
 
         [DataMember]
         public bool? IsImport { get; set; }
+
+        [DataMember]
+        public int BreakHorsePower { get; set; }
 
     }
 }

@@ -1,7 +1,64 @@
-﻿
+﻿@model Broker.web.Models.CarInsuranceViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Car Insurance Quick Quote";
 }
 
-<h2>Index</h2>
+<h2>Quick Quote</h2>
+
+<div class="row">
+    <div class="col-md-12">     
+          <form class="form-horizontal" action="@Url.Action("Create", "CarInsurance")" method="POST" id="create-job" data-parsley-validate="true">
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Area Kept</label>
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(x => x.CountyId, Model.Counties, "-- Select County--", new { @class = "form-control", @autofocus = "autofocus" })
+                        </div>
+                    </div>
+              <div class="form-group">
+                  <label class="col-md-3 control-label">No Claims Discount</label>
+                  <div class="col-md-3">
+                      @Html.DropDownListFor(x => x.NoClaimsBonus, Model.NoClaimsBonusList, "-- Select Discount--", new { @class = "form-control", @autofocus = "autofocus" })    
+                  </div> 
+              </div>
+              
+              <div class="form-group">
+                  <label class="col-md-3 control-label">Vehicle Value</label>
+                  <div class="col-md-3">
+                      @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "number", @placeholder="€" })
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label class="col-md-3 control-label">Age</label>
+                  <div class="col-md-3">
+                      @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "number" })
+                  </div>
+              </div>
+              
+              <div class="form-group">
+                  <label class="col-md-3 control-label">Email</label>
+                  <div class="col-md-3">
+                      @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control", @autocomplete = "off" })
+                  </div>
+              </div>
+              
+              <div class="form-group">
+                  <label class="col-md-3 control-label">Phone Number</label>
+                  <div class="col-md-3">
+                      @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control", @autocomplete = "off" })
+                  </div>
+              </div>
+
+              <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-sm btn-primary m-r-5">Get Quick Quote!</button>
+                        </div>
+                    </div>
+                </form>           
+    </div>
+</div>
+
+
 

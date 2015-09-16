@@ -1,12 +1,4 @@
-﻿// <copyright company="Action Point Innovation Ltd.">
-// Copyright (c) 2013 All Right Reserved
-//
-// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY 
-// KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// PARTICULAR PURPOSE.
-//
-// </copyright>
+﻿
 
 using System;
 using System.Threading.Tasks;
@@ -24,7 +16,8 @@ namespace Broker.Services
         private readonly IRestFactory _restFactory;
 
         public CarFinderService(IVehicleReader vehicleReader,
-                                IRestFactory restFactory){
+                                IRestFactory restFactory)
+        {
             _restFactory = restFactory;
             _vehicleReader = vehicleReader;
         }
@@ -45,6 +38,19 @@ namespace Broker.Services
 
             if (response == null)
                 return null;
+
+            return new VehicleDetailsDto
+            {
+                CurrentRegistration = response.CurrentRegistration,
+                Colour = response.Colour,
+                IsImport = response.IsImport,
+                ManufYear = response.ManufYear,
+                BodyType = response.BodyType,
+                FuelType = response.FuelType,
+                ModelDesc = response.VehicleDesc,
+                ModelName = string.Format("{0} {1}", response.Make, response.Model),
+                Transmission = response.Transmission
+            };
 
         }
     }

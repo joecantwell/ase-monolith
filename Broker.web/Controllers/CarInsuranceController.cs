@@ -63,5 +63,26 @@ namespace Broker.web.Controllers
                 return Json(new { id = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public ActionResult Create(CarInsuranceViewModel model)
+        {
+            try
+            {
+                // 
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.ToString());
+            }
+
+            return RedirectToAction("Details");
+        }
+
+        [HttpGet]
+        public ActionResult Details()
+        {
+            return View();
+        }
 	}
 }
