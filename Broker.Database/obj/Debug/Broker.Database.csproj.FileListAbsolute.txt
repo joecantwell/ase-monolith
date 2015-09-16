@@ -1,0 +1,5 @@
+C:\Projects\ASE\Insurance\Broker.Database\bin\Debug\Broker.Database.dll
+C:\Projects\ASE\Insurance\Broker.Database\bin\Debug\Broker.Database.pdb
+C:\Projects\ASE\Insurance\Broker.Database\obj\Debug\Broker.Database.dll
+C:\Projects\ASE\Insurance\Broker.Database\obj\Debug\Broker.Database.pdb
+C:\Projects\ASE\Insurance\Broker.Database\obj\Debug\Broker.Database.csprojResolveAssemblyReference.cache

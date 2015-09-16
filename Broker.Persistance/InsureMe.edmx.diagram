@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fb6437c90a91474cbfb0ea3a7669bfe7" Name="Diagram1">
+        <EntityTypeShape EntityType="INSUREMEModel.CarInsuranceQuoteRequest" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="INSUREMEModel.VehicleDetail" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="INSUREMEModel.HomeInsuranceQuoteRequest" Width="1.5" PointX="6" PointY="3.5" />
+        <EntityTypeShape EntityType="INSUREMEModel.County" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="INSUREMEModel.HouseType" Width="1.5" PointX="3.75" PointY="8.875" />
+        <EntityTypeShape EntityType="INSUREMEModel.InsuranceType" Width="1.5" PointX="3.75" PointY="11.375" />
+        <EntityTypeShape EntityType="INSUREMEModel.Town" Width="1.5" PointX="3.75" PointY="1.125" />
+        <AssociationConnector Association="INSUREMEModel.FK_CarInsuranceQuoteRequest_Counties" />
+        <AssociationConnector Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Counties" />
+        <AssociationConnector Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_HouseTypes" />
+        <AssociationConnector Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_InsuranceTypes" />
+        <AssociationConnector Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Towns" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

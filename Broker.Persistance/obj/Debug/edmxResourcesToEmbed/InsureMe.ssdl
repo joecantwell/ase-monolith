@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="INSUREMEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BodyTypes">
+    <Key>
+      <PropertyRef Name="BodyTypeId" />
+    </Key>
+    <Property Name="BodyTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BodyTypeDesc" Type="nvarchar" MaxLength="64" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="CarInsuranceQuoteRequest">
+    <Key>
+      <PropertyRef Name="CarQuoteId" />
+    </Key>
+    <Property Name="CarQuoteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarRegistration" Type="nvarchar" MaxLength="12" />
+    <Property Name="CarMake" Type="nvarchar" MaxLength="64" />
+    <Property Name="CarModel" Type="nvarchar" MaxLength="64" />
+    <Property Name="CarDesc" Type="nvarchar" MaxLength="64" />
+    <Property Name="CarYear" Type="int" />
+    <Property Name="CountyId" Type="int" />
+    <Property Name="NoClaimsDiscountYears" Type="int" />
+    <Property Name="VehicleValue" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="DriverAge" Type="int" />
+    <Property Name="EmailAddress" Type="nvarchar" MaxLength="64" />
+    <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Manufacturers">
+    <Key>
+      <PropertyRef Name="ManufacturerId" />
+    </Key>
+    <Property Name="ManufacturerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ManufacturerName" Type="nvarchar" MaxLength="64" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Models">
+    <Key>
+      <PropertyRef Name="ModelId" />
+    </Key>
+    <Property Name="ModelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ManufacturerId" Type="int" />
+    <Property Name="ModelDesc" Type="nvarchar" MaxLength="256" />
+    <Property Name="BodyTypeId" Type="int" />
+    <Property Name="FuelType" Type="nvarchar" MaxLength="64" />
+    <Property Name="Transmission" Type="nvarchar" MaxLength="64" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="VehicleDetails">
+    <Key>
+      <PropertyRef Name="VehicleId" />
+    </Key>
+    <Property Name="VehicleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ManufYear" Type="int" />
+    <Property Name="ModelId" Type="int" />
+    <Property Name="CurrentRegistration" Type="nvarchar" MaxLength="16" />
+    <Property Name="PreviousRegistrations" Type="nvarchar(max)" />
+    <Property Name="Colour" Type="nvarchar" MaxLength="64" />
+    <Property Name="IsImport" Type="bit" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HomeInsuranceQuoteRequest">
+    <Key>
+      <PropertyRef Name="HomeQuoteId" />
+    </Key>
+    <Property Name="HomeQuoteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InsuranceTypeId" Type="int" Nullable="false" />
+    <Property Name="IsSublet" Type="bit" />
+    <Property Name="CountyId" Type="int" Nullable="false" />
+    <Property Name="TownId" Type="int" Nullable="false" />
+    <Property Name="YearBuilt" Type="int" />
+    <Property Name="NumBedrooms" Type="int" />
+    <Property Name="BuildingCover" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="ContentsCover" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="EmailAddress" Type="nvarchar" MaxLength="64" />
+    <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
+    <Property Name="DateOfBirth" Type="datetime" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+    <Property Name="HouseTypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="Counties">
+    <Key>
+      <PropertyRef Name="CountyId" />
+    </Key>
+    <Property Name="CountyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CountyName" Type="nvarchar" MaxLength="64" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HouseTypes">
+    <Key>
+      <PropertyRef Name="HouseTypeId" />
+    </Key>
+    <Property Name="HouseTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeDescription" Type="nvarchar" MaxLength="128" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="InsuranceTypes">
+    <Key>
+      <PropertyRef Name="InsuranceTypeId" />
+    </Key>
+    <Property Name="InsuranceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InsuranceType" Type="nvarchar" MaxLength="10" />
+    <Property Name="InsuranceDesc" Type="nvarchar" MaxLength="64" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Towns">
+    <Key>
+      <PropertyRef Name="TownId" />
+    </Key>
+    <Property Name="TownId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TownName" Type="nvarchar" MaxLength="64" />
+    <Property Name="CountyId" Type="int" Nullable="false" />
+    <Property Name="UTCDateAdded" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_CarInsuranceQuoteRequest_Counties">
+    <End Role="Counties" Type="Self.Counties" Multiplicity="0..1" />
+    <End Role="CarInsuranceQuoteRequest" Type="Self.CarInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Counties">
+        <PropertyRef Name="CountyId" />
+      </Principal>
+      <Dependent Role="CarInsuranceQuoteRequest">
+        <PropertyRef Name="CountyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_Counties">
+    <End Role="Counties" Type="Self.Counties" Multiplicity="1" />
+    <End Role="HomeInsuranceQuoteRequest" Type="Self.HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Counties">
+        <PropertyRef Name="CountyId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="CountyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_HouseTypes">
+    <End Role="HouseTypes" Type="Self.HouseTypes" Multiplicity="0..1" />
+    <End Role="HomeInsuranceQuoteRequest" Type="Self.HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HouseTypes">
+        <PropertyRef Name="HouseTypeId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="HouseTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_InsuranceTypes">
+    <End Role="InsuranceTypes" Type="Self.InsuranceTypes" Multiplicity="1" />
+    <End Role="HomeInsuranceQuoteRequest" Type="Self.HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InsuranceTypes">
+        <PropertyRef Name="InsuranceTypeId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="InsuranceTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_Towns">
+    <End Role="Towns" Type="Self.Towns" Multiplicity="1" />
+    <End Role="HomeInsuranceQuoteRequest" Type="Self.HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Towns">
+        <PropertyRef Name="TownId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="TownId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Models_BodyTypes">
+    <End Role="BodyTypes" Type="Self.BodyTypes" Multiplicity="0..1" />
+    <End Role="Models" Type="Self.Models" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BodyTypes">
+        <PropertyRef Name="BodyTypeId" />
+      </Principal>
+      <Dependent Role="Models">
+        <PropertyRef Name="BodyTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Models_Manufacturers">
+    <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="0..1" />
+    <End Role="Models" Type="Self.Models" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Manufacturers">
+        <PropertyRef Name="ManufacturerId" />
+      </Principal>
+      <Dependent Role="Models">
+        <PropertyRef Name="ManufacturerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VehicleDetails_Models">
+    <End Role="Models" Type="Self.Models" Multiplicity="0..1" />
+    <End Role="VehicleDetails" Type="Self.VehicleDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Models">
+        <PropertyRef Name="ModelId" />
+      </Principal>
+      <Dependent Role="VehicleDetails">
+        <PropertyRef Name="ModelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="INSUREMEModelStoreContainer">
+    <EntitySet Name="BodyTypes" EntityType="Self.BodyTypes" Schema="car" store:Type="Tables" />
+    <EntitySet Name="CarInsuranceQuoteRequest" EntityType="Self.CarInsuranceQuoteRequest" Schema="car" store:Type="Tables" />
+    <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" Schema="car" store:Type="Tables" />
+    <EntitySet Name="Models" EntityType="Self.Models" Schema="car" store:Type="Tables" />
+    <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetails" Schema="car" store:Type="Tables" />
+    <EntitySet Name="HomeInsuranceQuoteRequest" EntityType="Self.HomeInsuranceQuoteRequest" Schema="home" store:Type="Tables" />
+    <EntitySet Name="Counties" EntityType="Self.Counties" Schema="meta" store:Type="Tables" />
+    <EntitySet Name="HouseTypes" EntityType="Self.HouseTypes" Schema="meta" store:Type="Tables" />
+    <EntitySet Name="InsuranceTypes" EntityType="Self.InsuranceTypes" Schema="meta" store:Type="Tables" />
+    <EntitySet Name="Towns" EntityType="Self.Towns" Schema="meta" store:Type="Tables" />
+    <AssociationSet Name="FK_CarInsuranceQuoteRequest_Counties" Association="Self.FK_CarInsuranceQuoteRequest_Counties">
+      <End Role="Counties" EntitySet="Counties" />
+      <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_Counties" Association="Self.FK_HomeInsuranceQuoteRequest_Counties">
+      <End Role="Counties" EntitySet="Counties" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_HouseTypes" Association="Self.FK_HomeInsuranceQuoteRequest_HouseTypes">
+      <End Role="HouseTypes" EntitySet="HouseTypes" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_InsuranceTypes" Association="Self.FK_HomeInsuranceQuoteRequest_InsuranceTypes">
+      <End Role="InsuranceTypes" EntitySet="InsuranceTypes" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_Towns" Association="Self.FK_HomeInsuranceQuoteRequest_Towns">
+      <End Role="Towns" EntitySet="Towns" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Models_BodyTypes" Association="Self.FK_Models_BodyTypes">
+      <End Role="BodyTypes" EntitySet="BodyTypes" />
+      <End Role="Models" EntitySet="Models" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Models_Manufacturers" Association="Self.FK_Models_Manufacturers">
+      <End Role="Manufacturers" EntitySet="Manufacturers" />
+      <End Role="Models" EntitySet="Models" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VehicleDetails_Models" Association="Self.FK_VehicleDetails_Models">
+      <End Role="Models" EntitySet="Models" />
+      <End Role="VehicleDetails" EntitySet="VehicleDetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
