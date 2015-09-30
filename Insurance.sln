@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarFinder.Api", "CarFinder.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarFinder.Api.Contracts", "CarFinder.Api.Contracts\CarFinder.Api.Contracts.csproj", "{CAE83B45-0F47-4B76-9340-D7FD698BCD55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Broker.Tests", "Broker.Tests\Broker.Tests.csproj", "{3007F78A-E0A8-47EE-9DB2-8EBDE50CAE81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{CAE83B45-0F47-4B76-9340-D7FD698BCD55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE83B45-0F47-4B76-9340-D7FD698BCD55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE83B45-0F47-4B76-9340-D7FD698BCD55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3007F78A-E0A8-47EE-9DB2-8EBDE50CAE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3007F78A-E0A8-47EE-9DB2-8EBDE50CAE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3007F78A-E0A8-47EE-9DB2-8EBDE50CAE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3007F78A-E0A8-47EE-9DB2-8EBDE50CAE81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

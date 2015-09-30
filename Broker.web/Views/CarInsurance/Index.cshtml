@@ -5,48 +5,81 @@
 
 <h2>Quick Quote</h2>
 
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal" action="@Url.Action("CheckCar", "CarInsurance")" method="GET" id="check-reg" data-parsley-validate="true">
+            <div class="form-group">
+                <label class="col-md-3 control-label">Car Registration</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="regNo" autocomplete="off" required autofocus style="text-transform: uppercase" placeholder="151-D-123456" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-sm btn-success">Find My Car</button>
+                    <i id="spinner" class="fa fa-2x fa-spinner fa-spin" style="display: none;"></i>
+                </div>
+            </div>   
+            
+            <div id="carFinderResults" style="display: none">               
+                                  
+            </div>                   
+        </form>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">     
           <form class="form-horizontal" action="@Url.Action("Create", "CarInsurance")" method="POST" id="create-job" data-parsley-validate="true">
+              @Html.HiddenFor(x => x.JsonVehicle)
+              <div class="form-group">
+                  <label class="col-md-3 control-label">Area Kept</label>
+                  <div class="col-md-3">
+                      @Html.DropDownListFor(x => x.CountyId, Model.Counties, "-- Select County--", new { @class = "form-control", @required="true" })
+                  </div>
+              </div>
 
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Area Kept</label>
-                        <div class="col-md-3">
-                            @Html.DropDownListFor(x => x.CountyId, Model.Counties, "-- Select County--", new { @class = "form-control", @autofocus = "autofocus" })
-                        </div>
-                    </div>
               <div class="form-group">
                   <label class="col-md-3 control-label">No Claims Discount</label>
                   <div class="col-md-3">
-                      @Html.DropDownListFor(x => x.NoClaimsBonus, Model.NoClaimsBonusList, "-- Select Discount--", new { @class = "form-control", @autofocus = "autofocus" })    
+                      @Html.DropDownListFor(x => x.NoClaimsDiscount, Model.NoClaimsBonusList, "-- Select Discount--", new { @class = "form-control", @data_parsley_required="true" })    
+                      @Html.ValidationMessageFor(x => x.NoClaimsDiscount)
                   </div> 
               </div>
               
               <div class="form-group">
                   <label class="col-md-3 control-label">Vehicle Value</label>
                   <div class="col-md-3">
-                      @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "number", @placeholder="€" })
+                      @Html.TextBoxFor(x => x.CarValue, new { @class = "form-control", @autocomplete = "off", @placeholder = "€", @data_parsley_required = "true" })
+                      @Html.ValidationMessageFor(x => x.CarValue)
                   </div>
               </div>
 
               <div class="form-group">
-                  <label class="col-md-3 control-label">Age</label>
+                  <label class="col-md-3 control-label">Your Age</label>
                   <div class="col-md-3">
-                      @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "number" })
+                      @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "number", @data_parsley_required = "true", @placeholder="Drivers Age" })
+                      @Html.ValidationMessageFor(x => x.Age)
                   </div>
               </div>
               
               <div class="form-group">
                   <label class="col-md-3 control-label">Email</label>
                   <div class="col-md-3">
-                      @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control", @autocomplete = "off" })
+                      @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control", @autocomplete = "off", @data_parsley_type="email", @required="true", @placeholder="Email Address" })
+                      @Html.ValidationMessageFor(x => x.EmailAddress)
                   </div>
               </div>
               
               <div class="form-group">
                   <label class="col-md-3 control-label">Phone Number</label>
                   <div class="col-md-3">
-                      @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control", @autocomplete = "off" })
+                      @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "digits", @required = "true", @placeholder="Contact No." })
+                      @Html.ValidationMessageFor(x => x.Telephone)
                   </div>
               </div>
 
@@ -56,9 +89,13 @@
                             <button type="submit" class="btn btn-sm btn-primary m-r-5">Get Quick Quote!</button>
                         </div>
                     </div>
-                </form>           
+           </form>           
     </div>
 </div>
 
-
+@section scripts
+{
+    <!-- corresponding js -->
+    <script src="~/Scripts/views/CarInsurance/index.js" type="text/javascript"></script>
+}
 

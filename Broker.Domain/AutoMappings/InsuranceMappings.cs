@@ -25,7 +25,11 @@ namespace Broker.Domain.AutoMappings
 
         public void DomainToContractMaps()
         {
-            CreateMap<County, CountyDto>();
+            CreateMap<County, CountyDto>()
+                ;
+
+            CreateMap<VehicleDetail, VehicleDetailsDto>()
+                ;
         }
 
         public void ContractToDomainMaps()
@@ -33,6 +37,9 @@ namespace Broker.Domain.AutoMappings
             CreateMap<CountyDto, County>()
                 .ForMember(dest => dest.CarInsuranceQuoteRequests, opts => opts.Ignore())
                 .ForMember(dest => dest.HomeInsuranceQuoteRequests, opts => opts.Ignore())
+                ;
+
+            CreateMap<VehicleDetailsDto, VehicleDetail>()
                 ;
         }
     }

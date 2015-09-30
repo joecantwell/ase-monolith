@@ -1,0 +1,5 @@
+C:\Projects\ASE\Insurance\CarFinder.Api.Contracts\bin\Debug\CarFinder.Api.Contracts.dll
+C:\Projects\ASE\Insurance\CarFinder.Api.Contracts\bin\Debug\CarFinder.Api.Contracts.pdb
+C:\Projects\ASE\Insurance\CarFinder.Api.Contracts\obj\Debug\CarFinder.Api.Contracts.csprojResolveAssemblyReference.cache
+C:\Projects\ASE\Insurance\CarFinder.Api.Contracts\obj\Debug\CarFinder.Api.Contracts.dll
+C:\Projects\ASE\Insurance\CarFinder.Api.Contracts\obj\Debug\CarFinder.Api.Contracts.pdb

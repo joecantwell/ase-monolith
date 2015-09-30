@@ -46,13 +46,13 @@ namespace Broker.web.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> CheckCar(string id)
+        public async Task<JsonResult> CheckCar(string regNo)
         {
             try
             {
-                _logger.Trace("Query Service for Reg No {0}", id);
+                _logger.Trace("Query Service for Reg No {0}", regNo);
 
-                var car = await _carFinderService.FindVehicleByRegistrationNo(id);
+                var car = await _carFinderService.FindVehicleByRegistrationNo(regNo);
 
                 return Json(car, JsonRequestBehavior.AllowGet);
             }
@@ -69,7 +69,7 @@ namespace Broker.web.Controllers
         {
             try
             {
-                // 
+                // take te object and send it to the external services
             }
             catch (Exception e)
             {
@@ -84,5 +84,6 @@ namespace Broker.web.Controllers
         {
             return View();
         }
+
 	}
 }

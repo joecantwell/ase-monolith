@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="INSUREMEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CarInsuranceQuoteRequests" EntityType="INSUREMEModel.CarInsuranceQuoteRequest" />
+    <EntitySet Name="VehicleDetails" EntityType="INSUREMEModel.VehicleDetail" />
+    <EntitySet Name="HomeInsuranceQuoteRequests" EntityType="INSUREMEModel.HomeInsuranceQuoteRequest" />
+    <EntitySet Name="Counties" EntityType="INSUREMEModel.County" />
+    <EntitySet Name="HouseTypes" EntityType="INSUREMEModel.HouseType" />
+    <EntitySet Name="InsuranceTypes" EntityType="INSUREMEModel.InsuranceType" />
+    <EntitySet Name="Towns" EntityType="INSUREMEModel.Town" />
+    <AssociationSet Name="FK_CarInsuranceQuoteRequest_Counties" Association="INSUREMEModel.FK_CarInsuranceQuoteRequest_Counties">
+      <End Role="County" EntitySet="Counties" />
+      <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_Counties" Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Counties">
+      <End Role="County" EntitySet="Counties" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_HouseTypes" Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_HouseTypes">
+      <End Role="HouseType" EntitySet="HouseTypes" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_InsuranceTypes" Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_InsuranceTypes">
+      <End Role="InsuranceType" EntitySet="InsuranceTypes" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HomeInsuranceQuoteRequest_Towns" Association="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Towns">
+      <End Role="Town" EntitySet="Towns" />
+      <End Role="HomeInsuranceQuoteRequest" EntitySet="HomeInsuranceQuoteRequests" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CarInsuranceQuoteRequest">
+    <Key>
+      <PropertyRef Name="CarQuoteId" />
+    </Key>
+    <Property Name="CarQuoteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CarRegistration" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+    <Property Name="CarMake" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="CarModel" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="CarDesc" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="CarYear" Type="Int32" />
+    <Property Name="CountyId" Type="Int32" />
+    <Property Name="NoClaimsDiscountYears" Type="Int32" />
+    <Property Name="VehicleValue" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="DriverAge" Type="Int32" />
+    <Property Name="EmailAddress" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="County" Relationship="INSUREMEModel.FK_CarInsuranceQuoteRequest_Counties" FromRole="CarInsuranceQuoteRequest" ToRole="County" />
+  </EntityType>
+  <EntityType Name="VehicleDetail">
+    <Key>
+      <PropertyRef Name="VehicleId" />
+    </Key>
+    <Property Name="VehicleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ModelName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="ModelDesc" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="ManufYear" Type="Int32" />
+    <Property Name="CurrentRegistration" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="Colour" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="BodyType" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="FuelType" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="Transmission" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="IsImport" Type="Boolean" />
+    <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="HomeInsuranceQuoteRequest">
+    <Key>
+      <PropertyRef Name="HomeQuoteId" />
+    </Key>
+    <Property Name="HomeQuoteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InsuranceTypeId" Type="Int32" Nullable="false" />
+    <Property Name="IsSublet" Type="Boolean" />
+    <Property Name="CountyId" Type="Int32" Nullable="false" />
+    <Property Name="TownId" Type="Int32" Nullable="false" />
+    <Property Name="YearBuilt" Type="Int32" />
+    <Property Name="NumBedrooms" Type="Int32" />
+    <Property Name="BuildingCover" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="ContentsCover" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="EmailAddress" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
+    <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
+    <Property Name="HouseTypeId" Type="Int32" />
+    <NavigationProperty Name="County" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Counties" FromRole="HomeInsuranceQuoteRequest" ToRole="County" />
+    <NavigationProperty Name="HouseType" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_HouseTypes" FromRole="HomeInsuranceQuoteRequest" ToRole="HouseType" />
+    <NavigationProperty Name="InsuranceType" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_InsuranceTypes" FromRole="HomeInsuranceQuoteRequest" ToRole="InsuranceType" />
+    <NavigationProperty Name="Town" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Towns" FromRole="HomeInsuranceQuoteRequest" ToRole="Town" />
+  </EntityType>
+  <EntityType Name="County">
+    <Key>
+      <PropertyRef Name="CountyId" />
+    </Key>
+    <Property Name="CountyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountyName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="CarInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_CarInsuranceQuoteRequest_Counties" FromRole="County" ToRole="CarInsuranceQuoteRequest" />
+    <NavigationProperty Name="HomeInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Counties" FromRole="County" ToRole="HomeInsuranceQuoteRequest" />
+  </EntityType>
+  <EntityType Name="HouseType">
+    <Key>
+      <PropertyRef Name="HouseTypeId" />
+    </Key>
+    <Property Name="HouseTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeDescription" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="HomeInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_HouseTypes" FromRole="HouseType" ToRole="HomeInsuranceQuoteRequest" />
+  </EntityType>
+  <EntityType Name="InsuranceType">
+    <Key>
+      <PropertyRef Name="InsuranceTypeId" />
+    </Key>
+    <Property Name="InsuranceTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InsuranceType1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="InsuranceDesc" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="HomeInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_InsuranceTypes" FromRole="InsuranceType" ToRole="HomeInsuranceQuoteRequest" />
+  </EntityType>
+  <EntityType Name="Town">
+    <Key>
+      <PropertyRef Name="TownId" />
+    </Key>
+    <Property Name="TownId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TownName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="CountyId" Type="Int32" Nullable="false" />
+    <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="HomeInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_HomeInsuranceQuoteRequest_Towns" FromRole="Town" ToRole="HomeInsuranceQuoteRequest" />
+  </EntityType>
+  <Association Name="FK_CarInsuranceQuoteRequest_Counties">
+    <End Type="INSUREMEModel.County" Role="County" Multiplicity="0..1" />
+    <End Type="INSUREMEModel.CarInsuranceQuoteRequest" Role="CarInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="County">
+        <PropertyRef Name="CountyId" />
+      </Principal>
+      <Dependent Role="CarInsuranceQuoteRequest">
+        <PropertyRef Name="CountyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_Counties">
+    <End Type="INSUREMEModel.County" Role="County" Multiplicity="1" />
+    <End Type="INSUREMEModel.HomeInsuranceQuoteRequest" Role="HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="County">
+        <PropertyRef Name="CountyId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="CountyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_HouseTypes">
+    <End Type="INSUREMEModel.HouseType" Role="HouseType" Multiplicity="0..1" />
+    <End Type="INSUREMEModel.HomeInsuranceQuoteRequest" Role="HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HouseType">
+        <PropertyRef Name="HouseTypeId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="HouseTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_InsuranceTypes">
+    <End Type="INSUREMEModel.InsuranceType" Role="InsuranceType" Multiplicity="1" />
+    <End Type="INSUREMEModel.HomeInsuranceQuoteRequest" Role="HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InsuranceType">
+        <PropertyRef Name="InsuranceTypeId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="InsuranceTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HomeInsuranceQuoteRequest_Towns">
+    <End Type="INSUREMEModel.Town" Role="Town" Multiplicity="1" />
+    <End Type="INSUREMEModel.HomeInsuranceQuoteRequest" Role="HomeInsuranceQuoteRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Town">
+        <PropertyRef Name="TownId" />
+      </Principal>
+      <Dependent Role="HomeInsuranceQuoteRequest">
+        <PropertyRef Name="TownId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

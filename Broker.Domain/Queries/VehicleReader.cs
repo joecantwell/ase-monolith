@@ -8,7 +8,9 @@
 //
 // </copyright>
 
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Broker.Domain.Models;
 using Broker.Persistance;
@@ -31,7 +33,9 @@ namespace Broker.Domain.Queries
 
         public VehicleDetailsDto GetVehicleByRegNo(string regNo)
         {
-            return Mapper.Map<VehicleDetailsDto>(_context.VehicleDetails.Where(x => x.CurrentRegistration.Equals(regNo)));
+            var vehicle = _context.VehicleDetails.FirstOrDefault(x => x.CurrentRegistration == regNo);
+
+            return Mapper.Map<VehicleDetailsDto>(vehicle);
         }
     }
 }

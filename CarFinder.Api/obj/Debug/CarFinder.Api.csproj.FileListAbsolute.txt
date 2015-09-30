@@ -1,0 +1,16 @@
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\CarFinder.Api.dll.config
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\CarFinder.Api.dll
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\CarFinder.Api.pdb
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\CarFinder.Api.Contracts.dll
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\Newtonsoft.Json.dll
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\System.Net.Http.Formatting.dll
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\System.Web.Http.dll
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\System.Web.Http.WebHost.dll
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\CarFinder.Api.Contracts.pdb
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\Newtonsoft.Json.xml
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\System.Net.Http.Formatting.xml
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\System.Web.Http.xml
+C:\Projects\ASE\Insurance\CarFinder.Api\bin\System.Web.Http.WebHost.xml
+C:\Projects\ASE\Insurance\CarFinder.Api\obj\Debug\CarFinder.Api.csprojResolveAssemblyReference.cache
+C:\Projects\ASE\Insurance\CarFinder.Api\obj\Debug\CarFinder.Api.dll
+C:\Projects\ASE\Insurance\CarFinder.Api\obj\Debug\CarFinder.Api.pdb
