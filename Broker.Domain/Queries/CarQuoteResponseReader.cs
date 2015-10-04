@@ -8,6 +8,7 @@
 //
 // </copyright>
 
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,27 +18,25 @@ using Broker.Persistance;
 
 namespace Broker.Domain.Queries
 {
-    public interface IVehicleReader
+    public interface ICarQuoteResponseReader
     {
-        Task<VehicleDetailsDto> GetVehicleByRegNo(string regNo);
+        Task<IEnumerable<CarQuoteResponseDto>> GetQuoteResponses(int quoteId);
     }
 
-    public class VehicleReader : IVehicleReader
+    public class CarQuoteResponseReader : ICarQuoteResponseReader
     {
-        private readonly static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
         private readonly Entities _context;
 
-        public VehicleReader(Entities context)
+        public CarQuoteResponseReader(Entities context)
         {
             _context = context;
         }
 
-        public async Task<VehicleDetailsDto> GetVehicleByRegNo(string regNo)
+        public async Task<IEnumerable<CarQuoteResponseDto>> GetQuoteResponses(int quoteId)
         {
-            var vehicle = await _context.VehicleDetails.FirstOrDefaultAsync(x => x.CurrentRegistration == regNo);
+            var quoteResponses = await _context.CarInsuranceQuoteResponses.Where(x => x.CarQuoteId == quoteId).ToListAsync();
 
-            return Mapper.Map<VehicleDetailsDto>(vehicle);
+            return Mapper.Map<IEnumerable<CarQuoteResponseDto>>(quoteResponses);
         }
     }
 }

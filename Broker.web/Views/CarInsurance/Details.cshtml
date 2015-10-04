@@ -1,7 +1,31 @@
-﻿
+﻿@using System.Globalization
+@model Broker.web.Models.QuotesReturnedViewModel
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Car Insurance Quick Quote";
 }
 
-<h2>Details</h2>
+<h2>Quotes Returned</h2>
+
+@foreach (var quote in @Model.Quotes)
+{
+    <div class="col-md-4">
+        <div class="alert alert-success">
+            <table>
+                <tr>
+                    <td style="width: 100px;">Insurer:</td>
+                    <td>@quote.Insurer</td>
+                </tr>
+                <tr>
+                    <td>Cover:</td>
+                    <td>@quote.QuoteType</td>
+                </tr>
+                <tr>
+                    <td>Cost:</td>
+                    <td>@String.Format(CultureInfo.CurrentCulture, "{0:C}", @quote.QuoteValue)</td>
+                </tr>
+            </table>
+        </div>
+</div>
+}
+
 

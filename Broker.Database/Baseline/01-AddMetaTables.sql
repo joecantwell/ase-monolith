@@ -1,0 +1,19 @@
+﻿USE [INSUREME]
+GO
+
+CREATE TABLE [meta].[Counties]
+(
+	CountyId INT IDENTITY PRIMARY KEY,
+	CountyName NVARCHAR(64),
+	UTCDateAdded DATETIME DEFAULT GetUtcDate()
+)
+GO
+
+CREATE TABLE [meta].[Towns]
+(
+	TownId INT IDENTITY PRIMARY KEY,
+	TownName NVARCHAR(64),
+	CountyId INT NOT NULL,
+	UTCDateAdded DATETIME DEFAULT GetUtcDate()
+)
+GO

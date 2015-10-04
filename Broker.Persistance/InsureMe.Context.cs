@@ -26,11 +26,9 @@ namespace Broker.Persistance
         }
     
         public virtual DbSet<CarInsuranceQuoteRequest> CarInsuranceQuoteRequests { get; set; }
+        public virtual DbSet<CarInsuranceQuoteResponse> CarInsuranceQuoteResponses { get; set; }
         public virtual DbSet<VehicleDetail> VehicleDetails { get; set; }
-        public virtual DbSet<HomeInsuranceQuoteRequest> HomeInsuranceQuoteRequests { get; set; }
         public virtual DbSet<County> Counties { get; set; }
-        public virtual DbSet<HouseType> HouseTypes { get; set; }
-        public virtual DbSet<InsuranceType> InsuranceTypes { get; set; }
         public virtual DbSet<Town> Towns { get; set; }
     }
 }

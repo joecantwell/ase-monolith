@@ -14,16 +14,9 @@ namespace Broker.Persistance
     
     public partial class Town
     {
-        public Town()
-        {
-            this.HomeInsuranceQuoteRequests = new HashSet<HomeInsuranceQuoteRequest>();
-        }
-    
         public int TownId { get; set; }
         public string TownName { get; set; }
         public int CountyId { get; set; }
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
-    
-        public virtual ICollection<HomeInsuranceQuoteRequest> HomeInsuranceQuoteRequests { get; set; }
     }
 }

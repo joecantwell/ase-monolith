@@ -39,20 +39,20 @@
               <div class="form-group">
                   <label class="col-md-3 control-label">Area Kept</label>
                   <div class="col-md-3">
-                      @Html.DropDownListFor(x => x.CountyId, Model.Counties, "-- Select County--", new { @class = "form-control", @required="true" })
+                      @Html.DropDownListFor(x => x.CarQuoteRequest.CountyId, Model.Counties, "-- Select County--", new { @class = "form-control", @required="true" })
                   </div>
               </div>
 
               <div class="form-group">
                   <label class="col-md-3 control-label">No Claims Discount</label>
                   <div class="col-md-3">
-                      @Html.DropDownListFor(x => x.NoClaimsDiscount, Model.NoClaimsBonusList, "-- Select Discount--", new { @class = "form-control", @data_parsley_required="true" })    
-                      @Html.ValidationMessageFor(x => x.NoClaimsDiscount)
+                      @Html.DropDownListFor(x => x.CarQuoteRequest.NoClaimsDiscountYears, Model.NoClaimsBonusList, "-- Select Discount--", new { @class = "form-control", @data_parsley_required="true" })    
+                      @Html.ValidationMessageFor(x => x.CarQuoteRequest.NoClaimsDiscountYears)
                   </div> 
               </div>
               
               <div class="form-group">
-                  <label class="col-md-3 control-label">Vehicle Value</label>
+                  <label class="col-md-3 control-label">Vehicle Value (€)</label>
                   <div class="col-md-3">
                       @Html.TextBoxFor(x => x.CarValue, new { @class = "form-control", @autocomplete = "off", @placeholder = "€", @data_parsley_required = "true" })
                       @Html.ValidationMessageFor(x => x.CarValue)
@@ -62,24 +62,24 @@
               <div class="form-group">
                   <label class="col-md-3 control-label">Your Age</label>
                   <div class="col-md-3">
-                      @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "number", @data_parsley_required = "true", @placeholder="Drivers Age" })
-                      @Html.ValidationMessageFor(x => x.Age)
+                      @Html.TextBoxFor(x => x.CarQuoteRequest.DriverAge, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "number", @data_parsley_required = "true", @placeholder="Drivers Age" })
+                      @Html.ValidationMessageFor(x => x.CarQuoteRequest.DriverAge)
                   </div>
               </div>
               
               <div class="form-group">
                   <label class="col-md-3 control-label">Email</label>
                   <div class="col-md-3">
-                      @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control", @autocomplete = "off", @data_parsley_type="email", @required="true", @placeholder="Email Address" })
-                      @Html.ValidationMessageFor(x => x.EmailAddress)
+                      @Html.TextBoxFor(x => x.CarQuoteRequest.EmailAddress, new { @class = "form-control", @autocomplete = "off", @data_parsley_type="email", @required="true", @placeholder="Email Address" })
+                      @Html.ValidationMessageFor(x => x.CarQuoteRequest.EmailAddress)
                   </div>
               </div>
               
               <div class="form-group">
                   <label class="col-md-3 control-label">Phone Number</label>
                   <div class="col-md-3">
-                      @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "digits", @required = "true", @placeholder="Contact No." })
-                      @Html.ValidationMessageFor(x => x.Telephone)
+                      @Html.TextBoxFor(x => x.CarQuoteRequest.Telephone, new { @class = "form-control", @autocomplete = "off", @data_parsley_type = "digits", @required = "true", @placeholder="Contact No." })
+                      @Html.ValidationMessageFor(x => x.CarQuoteRequest.Telephone)
                   </div>
               </div>
 

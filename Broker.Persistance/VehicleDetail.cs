@@ -14,6 +14,11 @@ namespace Broker.Persistance
     
     public partial class VehicleDetail
     {
+        public VehicleDetail()
+        {
+            this.CarInsuranceQuoteRequests = new HashSet<CarInsuranceQuoteRequest>();
+        }
+    
         public int VehicleId { get; set; }
         public string ModelName { get; set; }
         public string ModelDesc { get; set; }
@@ -25,5 +30,7 @@ namespace Broker.Persistance
         public string Transmission { get; set; }
         public Nullable<bool> IsImport { get; set; }
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
+    
+        public virtual ICollection<CarInsuranceQuoteRequest> CarInsuranceQuoteRequests { get; set; }
     }
 }

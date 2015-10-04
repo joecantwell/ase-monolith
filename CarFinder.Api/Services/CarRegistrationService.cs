@@ -31,6 +31,7 @@ namespace CarFinder.Api.Services
                 BreakHorsePower = 103,
                 ManufYear = 2008,
                 NoDoors = 5,
+                Transmission = "Manual",
                 VehicleDesc = "2008 Volkswagen Passat 1.9 TDI Bluemotion 103 BHP 5 DR"
             };
         }

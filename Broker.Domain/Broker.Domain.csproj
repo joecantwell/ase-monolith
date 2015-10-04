@@ -45,8 +45,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.4.1.0\lib\net45\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.4.1.1\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -60,18 +61,22 @@
   <ItemGroup>
     <Compile Include="AutoMapperDomainConfig.cs" />
     <Compile Include="AutoMappings\InsuranceMappings.cs" />
+    <Compile Include="AutoMappings\ServiceMappings.cs" />
+    <Compile Include="Commands\CarQuoteRequestWriter.cs" />
+    <Compile Include="Commands\CarQuoteResponseWriter.cs" />
+    <Compile Include="Commands\VehicleWriter.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Models\CarQuoteRequestDto.cs" />
     <Compile Include="Models\CountyDto.cs" />
+    <Compile Include="Models\CarQuoteResponseDto.cs" />
     <Compile Include="Models\ManufacturerDto.cs" />
     <Compile Include="Models\VehicleDetailsDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\CarQuoteResponseReader.cs" />
     <Compile Include="Queries\CountyReader.cs" />
     <Compile Include="Queries\VehicleReader.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -84,6 +89,10 @@
     <ProjectReference Include="..\CarFinder.Api.Contracts\CarFinder.Api.Contracts.csproj">
       <Project>{cae83b45-0f47-4b76-9340-d7fd698bcd55}</Project>
       <Name>CarFinder.Api.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thirdparty.Api.Contracts\ThirdParty.Api.Contracts.csproj">
+      <Project>{640e40c4-2273-4678-8a05-eb689f742794}</Project>
+      <Name>ThirdParty.Api.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,7 +8,6 @@
 //
 // </copyright>
 
-using System.Diagnostics.PerformanceData;
 using AutoMapper;
 using Broker.Domain.Models;
 using Broker.Persistance;
@@ -30,17 +29,31 @@ namespace Broker.Domain.AutoMappings
 
             CreateMap<VehicleDetail, VehicleDetailsDto>()
                 ;
+
+            CreateMap<CarInsuranceQuoteRequest, CarQuoteRequestDto>()
+                ;
+
+            CreateMap<CarInsuranceQuoteResponse, CarQuoteResponseDto>()
+                ;
         }
 
         public void ContractToDomainMaps()
         {
             CreateMap<CountyDto, County>()
                 .ForMember(dest => dest.CarInsuranceQuoteRequests, opts => opts.Ignore())
-                .ForMember(dest => dest.HomeInsuranceQuoteRequests, opts => opts.Ignore())
                 ;
 
             CreateMap<VehicleDetailsDto, VehicleDetail>()
+                .ForMember(dest => dest.CarInsuranceQuoteRequests, opts => opts.Ignore())
                 ;
+
+            CreateMap<CarQuoteRequestDto, CarInsuranceQuoteRequest>()
+                .ForMember(dest => dest.County, opts => opts.Ignore())
+                .ForMember(dest => dest.VehicleDetail, opts => opts.Ignore())
+                ;
+
+            CreateMap<CarQuoteResponseDto, CarInsuranceQuoteResponse>()
+                .ForMember(dest => dest.CarInsuranceQuoteRequest, opts => opts.Ignore());
         }
     }
 }

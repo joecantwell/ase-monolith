@@ -8,36 +8,41 @@
 //
 // </copyright>
 
-using System.Data.Entity;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Broker.Domain.Models;
 using Broker.Persistance;
 
-namespace Broker.Domain.Queries
+namespace Broker.Domain.Commands
 {
-    public interface IVehicleReader
+    public interface IVehicleWriter
     {
-        Task<VehicleDetailsDto> GetVehicleByRegNo(string regNo);
+        Task<int> AddVehicle(VehicleDetailsDto vehicle);
     }
 
-    public class VehicleReader : IVehicleReader
+    public class VehicleWriter : IVehicleWriter
     {
         private readonly static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly Entities _context;
 
-        public VehicleReader(Entities context)
+        public VehicleWriter(Entities context)
         {
             _context = context;
         }
 
-        public async Task<VehicleDetailsDto> GetVehicleByRegNo(string regNo)
+        public async Task<int> AddVehicle(VehicleDetailsDto vehicle)
         {
-            var vehicle = await _context.VehicleDetails.FirstOrDefaultAsync(x => x.CurrentRegistration == regNo);
+            _logger.Trace("Adding Vehicle to local Cache - {0}", vehicle.CurrentRegistration);
 
-            return Mapper.Map<VehicleDetailsDto>(vehicle);
+            var mappedVehicle = Mapper.Map<VehicleDetail>(vehicle);
+            mappedVehicle.UTCDateAdded = DateTime.UtcNow;
+
+            _context.VehicleDetails.Add(mappedVehicle);
+            await _context.SaveChangesAsync();
+
+            return mappedVehicle.VehicleId;
         }
     }
 }

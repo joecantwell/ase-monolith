@@ -12,18 +12,15 @@ namespace Broker.Persistance
     using System;
     using System.Collections.Generic;
     
-    public partial class InsuranceType
+    public partial class CarInsuranceQuoteResponse
     {
-        public InsuranceType()
-        {
-            this.HomeInsuranceQuoteRequests = new HashSet<HomeInsuranceQuoteRequest>();
-        }
-    
-        public int InsuranceTypeId { get; set; }
-        public string InsuranceType1 { get; set; }
-        public string InsuranceDesc { get; set; }
+        public int ResponseId { get; set; }
+        public int CarQuoteId { get; set; }
+        public string Insurer { get; set; }
+        public string QuoteType { get; set; }
+        public Nullable<decimal> QuoteValue { get; set; }
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
     
-        public virtual ICollection<HomeInsuranceQuoteRequest> HomeInsuranceQuoteRequests { get; set; }
+        public virtual CarInsuranceQuoteRequest CarInsuranceQuoteRequest { get; set; }
     }
 }

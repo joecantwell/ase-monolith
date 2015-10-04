@@ -17,7 +17,6 @@ namespace Broker.Persistance
         public County()
         {
             this.CarInsuranceQuoteRequests = new HashSet<CarInsuranceQuoteRequest>();
-            this.HomeInsuranceQuoteRequests = new HashSet<HomeInsuranceQuoteRequest>();
         }
     
         public int CountyId { get; set; }
@@ -25,6 +24,5 @@ namespace Broker.Persistance
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
     
         public virtual ICollection<CarInsuranceQuoteRequest> CarInsuranceQuoteRequests { get; set; }
-        public virtual ICollection<HomeInsuranceQuoteRequest> HomeInsuranceQuoteRequests { get; set; }
     }
 }

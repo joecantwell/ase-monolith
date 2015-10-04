@@ -53,16 +53,10 @@
     <Compile Include="CarInsuranceQuoteRequest.cs">
       <DependentUpon>InsureMe.tt</DependentUpon>
     </Compile>
+    <Compile Include="CarInsuranceQuoteResponse.cs">
+      <DependentUpon>InsureMe.tt</DependentUpon>
+    </Compile>
     <Compile Include="County.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
-    </Compile>
-    <Compile Include="HomeInsuranceQuoteRequest.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
-    </Compile>
-    <Compile Include="HouseType.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
-    </Compile>
-    <Compile Include="InsuranceType.cs">
       <DependentUpon>InsureMe.tt</DependentUpon>
     </Compile>
     <Compile Include="InsureMe.Context.cs">

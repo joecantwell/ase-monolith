@@ -43,10 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Baseline\00-CreateDB.sql" />
-    <Content Include="Baseline\01-AddHomeQuoteTables.sql" />
+    <Content Include="Baseline\01-AddMetaTables.sql" />
     <Content Include="Baseline\10-AddCarFinderDetails.sql" />
     <Content Include="Baseline\20-AddCarQuoteTables.sql" />
-    <Content Include="Migrations\01\010_AddHouseTypeCol.sql" />
     <Content Include="Migrations\01\020_SeedData.sql" />
   </ItemGroup>
   <ItemGroup>

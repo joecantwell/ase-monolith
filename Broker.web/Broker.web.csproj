@@ -194,6 +194,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarInsuranceViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\QuotesReturnedViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

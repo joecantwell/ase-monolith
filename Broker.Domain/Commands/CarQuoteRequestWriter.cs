@@ -8,36 +8,41 @@
 //
 // </copyright>
 
-using System.Data.Entity;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Broker.Domain.Models;
 using Broker.Persistance;
 
-namespace Broker.Domain.Queries
+namespace Broker.Domain.Commands
 {
-    public interface IVehicleReader
+    public interface ICarQuoteRequestWriter
     {
-        Task<VehicleDetailsDto> GetVehicleByRegNo(string regNo);
+        Task<int> AddQuote(CarQuoteRequestDto request);
     }
 
-    public class VehicleReader : IVehicleReader
+    public class CarQuoteRequestWriter : ICarQuoteRequestWriter
     {
         private readonly static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly Entities _context;
 
-        public VehicleReader(Entities context)
+        public CarQuoteRequestWriter(Entities context)
         {
             _context = context;
         }
 
-        public async Task<VehicleDetailsDto> GetVehicleByRegNo(string regNo)
+        public async Task<int> AddQuote(CarQuoteRequestDto request)
         {
-            var vehicle = await _context.VehicleDetails.FirstOrDefaultAsync(x => x.CurrentRegistration == regNo);
+            _logger.Trace("Persisting Quote prior to external query");
 
-            return Mapper.Map<VehicleDetailsDto>(vehicle);
+            var mappedQuote = Mapper.Map<CarInsuranceQuoteRequest>(request);
+            mappedQuote.UTCDateAdded = DateTime.UtcNow;
+
+            _context.CarInsuranceQuoteRequests.Add(mappedQuote);
+            await _context.SaveChangesAsync();
+
+            return mappedQuote.CarQuoteId;
         }
     }
 }

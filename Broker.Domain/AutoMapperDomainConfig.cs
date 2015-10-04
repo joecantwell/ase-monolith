@@ -8,7 +8,11 @@ namespace Broker.Domain
     {
         public static void Configure()
         {
-            Mapper.Initialize(x => x.AddProfile(new InsuranceMappings()));
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile(new InsuranceMappings());
+                x.AddProfile(new ServiceMappings());
+            });
         }
     }
 }

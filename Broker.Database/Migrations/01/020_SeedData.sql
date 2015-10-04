@@ -37,14 +37,3 @@ INSERT INTO meta.Counties(CountyName) VALUES ('Westmeath');
 INSERT INTO meta.Counties(CountyName) VALUES ('Wexford');
 INSERT INTO meta.Counties(CountyName) VALUES ('Wicklow');
 GO
-
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Bungalow');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Country Mansion');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Detached House');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Duplex');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Farm House');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Flat');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Purpose Built Apartment');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Semi-detached');
-INSERT INTO meta.HouseTypes(TypeDescription) VALUES('Terraced House');
-GO

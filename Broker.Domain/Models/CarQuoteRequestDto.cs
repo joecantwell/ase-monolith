@@ -9,23 +9,27 @@
 // </copyright>
 
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Broker.Domain.Models
 {
     public class CarQuoteRequestDto
     {
         public int CarQuoteId { get; set; }
-        public string CarRegistration { get; set; }
-        public string CarMake { get; set; }
-        public string CarModel { get; set; }
-        public string CarDesc { get; set; }
-        public int? CarYear { get; set; }
+        public int VehicleId { get; set; }
         public int? CountyId { get; set; }
         public int? NoClaimsDiscountYears { get; set; }
         public decimal? VehicleValue { get; set; }
         public int? DriverAge { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
         public string Telephone { get; set; }
+
         public DateTime? UTCDateAdded { get; set; }
     }
 }

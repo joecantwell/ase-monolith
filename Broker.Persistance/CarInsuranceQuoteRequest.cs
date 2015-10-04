@@ -14,12 +14,13 @@ namespace Broker.Persistance
     
     public partial class CarInsuranceQuoteRequest
     {
+        public CarInsuranceQuoteRequest()
+        {
+            this.CarInsuranceQuoteResponses = new HashSet<CarInsuranceQuoteResponse>();
+        }
+    
         public int CarQuoteId { get; set; }
-        public string CarRegistration { get; set; }
-        public string CarMake { get; set; }
-        public string CarModel { get; set; }
-        public string CarDesc { get; set; }
-        public Nullable<int> CarYear { get; set; }
+        public int VehicleId { get; set; }
         public Nullable<int> CountyId { get; set; }
         public Nullable<int> NoClaimsDiscountYears { get; set; }
         public Nullable<decimal> VehicleValue { get; set; }
@@ -29,5 +30,7 @@ namespace Broker.Persistance
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
     
         public virtual County County { get; set; }
+        public virtual VehicleDetail VehicleDetail { get; set; }
+        public virtual ICollection<CarInsuranceQuoteResponse> CarInsuranceQuoteResponses { get; set; }
     }
 }

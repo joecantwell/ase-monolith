@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Broker.Service.Contracts;
 using Broker.web.ModelBuilders;
 using Broker.web.Models;
@@ -15,15 +16,19 @@ namespace Broker.web.Controllers
 
         private readonly ICarInsuranceModelBuilder _carInsuranceModelBuilder;
         private readonly ICarFinderService _carFinderService;
+        private readonly ICarQuoteService _carQuoteService;
 
         public CarInsuranceController(ICarInsuranceModelBuilder carInsuranceModelBuilder, 
-                                        ICarFinderService carFinderService)
+                                        ICarFinderService carFinderService,
+                                        ICarQuoteService carQuoteService)
         {
+            _carQuoteService = carQuoteService;
             _carFinderService = carFinderService;
             _carInsuranceModelBuilder = carInsuranceModelBuilder;
         }
 
         // GET: /CarInsurance/
+        [HttpGet]
         public ActionResult Index()
         {
             var model = _carInsuranceModelBuilder.BuildCarQuoteView();
@@ -31,18 +36,33 @@ namespace Broker.web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(CarInsuranceViewModel model)
+        public async Task<ActionResult> Create(CarInsuranceViewModel model)
         {
+            int quoteId= 0;
             try
             {
-               
+                decimal value;
+                decimal.TryParse(model.CarValue, out value);
+
+                model.CarQuoteRequest.VehicleValue = value;
+                model.CarQuoteRequest.VehicleId = model.Vehicle.VehicleId;
+                quoteId = await _carQuoteService.AddQuotes(model.CarQuoteRequest, model.Vehicle);
             }
             catch (Exception e)
             {
                 _logger.Error(e.ToString());
             }
 
-            return View(model);
+            return RedirectToAction("Details", new {id = quoteId});
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
+        {
+            // get the quotes from the db
+            var quotes = await _carQuoteService.ListQuotes(id);
+
+            return View(new QuotesReturnedViewModel{Quotes = quotes});
         }
 
         [HttpGet]
@@ -63,27 +83,5 @@ namespace Broker.web.Controllers
                 return Json(new { id = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        [HttpPost]
-        public ActionResult Create(CarInsuranceViewModel model)
-        {
-            try
-            {
-                // take te object and send it to the external services
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e.ToString());
-            }
-
-            return RedirectToAction("Details");
-        }
-
-        [HttpGet]
-        public ActionResult Details()
-        {
-            return View();
-        }
-
 	}
 }

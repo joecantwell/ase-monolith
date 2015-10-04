@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Broker.Domain.Models;
 using Broker.Domain.Queries;
 using Broker.web.Models;
 
@@ -45,7 +46,8 @@ namespace Broker.web.ModelBuilders
                 {
                     Text = x.Value,
                     Value = x.Key.ToString()
-                })
+                }),
+                CarQuoteRequest = new CarQuoteRequestDto()
             };
         }
     }
