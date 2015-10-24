@@ -8,7 +8,11 @@
 //
 // </copyright>
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -57,15 +61,38 @@ namespace Broker.Services
             };
 
             var gateway = _restFactory.CreateGateway<ServiceCarInsuranceQuoteRequest>(EndPoint.InsuranceService);
+            IEnumerable<ServiceCarInsuranceQuoteResponse> allQuotes = new List<ServiceCarInsuranceQuoteResponse>();
 
-            var response = await gateway.Post(serviceRequest, "/api/carinsurancequote");
-
-            if (response != null)
+            foreach (var insurer in Enum.GetValues(typeof(Insurer)))
             {
-                var quotes = await response.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
+                serviceRequest.Insurer = (Insurer)insurer;
+                var response = await gateway.Post(serviceRequest, "/api/carinsurancequote");
 
-                await _carQuoteResponseWriter.AddResponse(Mapper.Map<IEnumerable<CarQuoteResponseDto>>(quotes));
+                if (response != null)
+                {
+                    var quotes = await response.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
+                    allQuotes = allQuotes.Concat(quotes);                   
+                }
             }
+
+            // determine which is the cheapest
+            var responsesToSave = Mapper.Map<IEnumerable<CarQuoteResponseDto>>(allQuotes);
+
+            var carQuoteResponseDtos = responsesToSave as CarQuoteResponseDto[] ?? responsesToSave.ToArray();
+            var cheapestQuotes = carQuoteResponseDtos
+                                            .GroupBy(x => x.QuoteType)
+                                            .SelectMany(y => y.OrderBy(x => x.QuoteValue)
+                                            .Take(1));
+
+            foreach (var quote in carQuoteResponseDtos)
+            {
+                if (cheapestQuotes.Contains(quote))
+                {
+                    quote.IsCheapest = true;
+                }
+            }
+
+            await _carQuoteResponseWriter.AddResponse(carQuoteResponseDtos);
 
             return quoteId;
 

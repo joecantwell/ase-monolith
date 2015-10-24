@@ -35,7 +35,7 @@ namespace Broker.Domain.Commands
 
         public async Task AddResponse(IEnumerable<CarQuoteResponseDto> response)
         {
-            var mapppedObjects = Mapper.Map < IEnumerable<CarInsuranceQuoteResponse>>(response);
+            var mapppedObjects = Mapper.Map<IEnumerable<CarInsuranceQuoteResponse>>(response);
            
             _context.CarInsuranceQuoteResponses.AddRange(mapppedObjects);
             await _context.SaveChangesAsync();

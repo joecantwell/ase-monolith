@@ -20,6 +20,7 @@ namespace Broker.Persistance
         public string QuoteType { get; set; }
         public Nullable<decimal> QuoteValue { get; set; }
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
+        public Nullable<bool> IsCheapest { get; set; }
     
         public virtual CarInsuranceQuoteRequest CarInsuranceQuoteRequest { get; set; }
     }

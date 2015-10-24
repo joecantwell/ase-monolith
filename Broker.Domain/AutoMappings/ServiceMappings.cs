@@ -29,7 +29,9 @@ namespace Broker.Domain.AutoMappings
                 .ForMember(dest => dest.ResponseId, opts => opts.Ignore())
                 .ForMember(dest => dest.CarQuoteId, opts => opts.MapFrom(x => x.QuoteId))
                 .ForMember(dest => dest.Insurer, opts => opts.MapFrom(x => x.InsuranceCompany))
+                .ForMember(dest => dest.QuoteType, opts => opts.MapFrom(x => x.QuoteType.GetDisplayName()))
                 .ForMember(dest => dest.UTCDateAdded, opts => opts.MapFrom(x => DateTime.UtcNow))
+                .ForMember(dest => dest.IsCheapest, opts => opts.Ignore())
                 ;
         }
     }

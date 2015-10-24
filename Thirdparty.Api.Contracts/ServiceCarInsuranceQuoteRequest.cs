@@ -17,21 +17,32 @@ namespace Thirdparty.Api.Contracts
     {
         [DataMember]
         public int QuoteRequestId { get; set; }
+
         [DataMember]
         public string County { get; set; }
+
         [DataMember]
         public int NoClaimsDiscountYears { get; set; }
+
         [DataMember]
         public decimal VehicleValue { get; set; }
+
         [DataMember]
         public int DriverAge { get; set; }
+
         [DataMember]
         public string ModelDesc { get; set; }
+
         [DataMember]
         public int ManufYear { get; set; }
+
         [DataMember]
         public string CurrentRegistration { get; set; }
+
         [DataMember]
         public bool? IsImport { get; set; }
+
+        [DataMember]
+        public Insurer Insurer { get;set;}
     }
 }

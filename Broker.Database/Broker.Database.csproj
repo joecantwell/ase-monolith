@@ -47,10 +47,10 @@
     <Content Include="Baseline\10-AddCarFinderDetails.sql" />
     <Content Include="Baseline\20-AddCarQuoteTables.sql" />
     <Content Include="Migrations\01\020_SeedData.sql" />
+    <Content Include="Migrations\01\030_AddIsCheapestQuoteFlag.sql" />
+    <Content Include="Rollbacks\01\030_AddIsCheapestQuoteFlag.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rollbacks\01\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

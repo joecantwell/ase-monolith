@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="fb6437c90a91474cbfb0ea3a7669bfe7" Name="Diagram1">
         <EntityTypeShape EntityType="INSUREMEModel.CarInsuranceQuoteRequest" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="INSUREMEModel.CarInsuranceQuoteResponse" Width="1.5" PointX="5.25" PointY="1.5" />
+        <EntityTypeShape EntityType="INSUREMEModel.CarInsuranceQuoteResponse" Width="2.125" PointX="5.25" PointY="1.5" />
         <EntityTypeShape EntityType="INSUREMEModel.VehicleDetail" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="INSUREMEModel.County" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="INSUREMEModel.Town" Width="1.5" PointX="2.75" PointY="5.75" />

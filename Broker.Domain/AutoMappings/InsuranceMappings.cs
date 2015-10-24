@@ -50,6 +50,7 @@ namespace Broker.Domain.AutoMappings
             CreateMap<CarQuoteRequestDto, CarInsuranceQuoteRequest>()
                 .ForMember(dest => dest.County, opts => opts.Ignore())
                 .ForMember(dest => dest.VehicleDetail, opts => opts.Ignore())
+                .ForMember(dest => dest.CarInsuranceQuoteResponses, opts => opts.Ignore())
                 ;
 
             CreateMap<CarQuoteResponseDto, CarInsuranceQuoteResponse>()

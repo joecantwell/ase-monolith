@@ -29,6 +29,7 @@
           <Property Name="QuoteType" Type="nvarchar" MaxLength="32" />
           <Property Name="QuoteValue" Type="decimal" Precision="18" Scale="3" />
           <Property Name="UTCDateAdded" Type="datetime" />
+          <Property Name="IsCheapest" Type="bit" />
         </EntityType>
         <EntityType Name="VehicleDetails">
           <Key>
@@ -169,6 +170,7 @@
           <Property Name="QuoteValue" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CarInsuranceQuoteRequest" Relationship="INSUREMEModel.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" FromRole="CarInsuranceQuoteResponse" ToRole="CarInsuranceQuoteRequest" />
+          <Property Name="IsCheapest" Type="Boolean" />
         </EntityType>
         <EntityType Name="VehicleDetail">
           <Key>
@@ -265,6 +267,7 @@
           <EntitySetMapping Name="CarInsuranceQuoteResponses">
             <EntityTypeMapping TypeName="INSUREMEModel.CarInsuranceQuoteResponse">
               <MappingFragment StoreEntitySet="CarInsuranceQuoteResponse">
+                <ScalarProperty Name="IsCheapest" ColumnName="IsCheapest" />
                 <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
                 <ScalarProperty Name="QuoteValue" ColumnName="QuoteValue" />
                 <ScalarProperty Name="QuoteType" ColumnName="QuoteType" />

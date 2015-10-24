@@ -4,13 +4,28 @@
     ViewBag.Title = "Car Insurance Quick Quote";
 }
 
-<h2>Quotes Returned</h2>
+<h2>Quotes Returned <small>Cheapest are highlighted.</small></h2>
+
+<div class="row">&nbsp;</div>
+
+<div class="col-md-4">
+    <h4>Comprehensive</h4>
+</div>
+
+<div class="col-md-4">
+    <h4>Third Party (Fire & Theft)</h4>
+</div>
+
+<div class="col-md-4">
+    <h4>Third Party</h4>
+</div>
+
 
 @foreach (var quote in @Model.Quotes)
 {
     <div class="col-md-4">
-        <div class="alert alert-success">
-            <table>
+        <div class="@(quote.IsCheapest.HasValue && quote.IsCheapest.Value ? "alert alert-success" : "alert alert-warning")">
+            <table> 
                 <tr>
                     <td style="width: 100px;">Insurer:</td>
                     <td>@quote.Insurer</td>

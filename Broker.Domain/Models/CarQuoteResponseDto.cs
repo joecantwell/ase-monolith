@@ -20,6 +20,7 @@ namespace Broker.Domain.Models
         public string Insurer { get; set; }
         public string QuoteType { get; set; }
         public decimal? QuoteValue { get; set; }
+        public bool? IsCheapest { get; set; }
         public DateTime? UTCDateAdded { get; set; }
     }
 }

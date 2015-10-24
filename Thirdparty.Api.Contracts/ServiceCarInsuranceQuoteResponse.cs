@@ -8,6 +8,7 @@
 //
 // </copyright>
 
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace Thirdparty.Api.Contracts
@@ -33,8 +34,13 @@ namespace Thirdparty.Api.Contracts
 
     public enum QuoteType
     {
+        [Display(Name = "Comprehensive")]
         Comprehensive,
+
+        [Display(Name = "Third-Party Fire and Theft")]
         ThirdPartyFireAndTheft,
+
+        [Display(Name = "Third-Party")]
         ThirdParty
     }
 }
