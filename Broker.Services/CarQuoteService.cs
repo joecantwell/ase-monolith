@@ -61,6 +61,7 @@ namespace Broker.Services
             };
 
             var gateway = _restFactory.CreateGateway<ServiceCarInsuranceQuoteRequest>(EndPoint.InsuranceService);
+
             IEnumerable<ServiceCarInsuranceQuoteResponse> allQuotes = new List<ServiceCarInsuranceQuoteResponse>();
 
             foreach (var insurer in Enum.GetValues(typeof(Insurer)))
@@ -75,7 +76,7 @@ namespace Broker.Services
                 }
             }
 
-            // determine which is the cheapest
+            // determine which is the cheapest by quote type
             var responsesToSave = Mapper.Map<IEnumerable<CarQuoteResponseDto>>(allQuotes);
 
             var carQuoteResponseDtos = responsesToSave as CarQuoteResponseDto[] ?? responsesToSave.ToArray();
@@ -84,6 +85,7 @@ namespace Broker.Services
                                             .SelectMany(y => y.OrderBy(x => x.QuoteValue)
                                             .Take(1));
 
+            // set ischeapest flag in the database
             foreach (var quote in carQuoteResponseDtos)
             {
                 if (cheapestQuotes.Contains(quote))

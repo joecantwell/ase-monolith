@@ -17,13 +17,14 @@ namespace ThirdParty.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "Controller is Accessible");
         }
 
-        public HttpResponseMessage Post(ServiceCarInsuranceQuoteRequest request)
+        [HttpPost]
+        public async Task<HttpResponseMessage> Post(ServiceCarInsuranceQuoteRequest request)
         {
             try
             {
                 ICreateQuoteService quoteService = new CreateQuoteService();
 
-                var quotesReturned = quoteService.CreateQuotes(request);
+                var quotesReturned = await Task.FromResult<List<ServiceCarInsuranceQuoteResponse>>(quoteService.CreateQuotes(request));
 
                 return Request.CreateResponse(HttpStatusCode.OK, quotesReturned);
             }
