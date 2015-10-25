@@ -7,12 +7,12 @@ namespace Broker.web.Configuration
     {
         public Uri ServicesBaseUri 
         {
-            get { return new Uri("http://localhost:8088"); }
+            get { return new Uri("http://findmycar.cloudapp.net"); }
         }
 
         public Uri CarFinderBaseUri
         {
-            get { return new Uri("http://localhost:8088"); }
+            get { return new Uri("http://insureme.cloudapp.net"); }
         }
     }
 }
