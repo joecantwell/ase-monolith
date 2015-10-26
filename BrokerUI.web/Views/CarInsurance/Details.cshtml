@@ -1,0 +1,46 @@
+﻿@using System.Globalization
+@model BrokerUI.web.Models.QuotesReturnedViewModel
+@{
+    ViewBag.Title = "Car Insurance Quick Quote";
+}
+
+<h2>Quotes Returned <small>Cheapest are highlighted.</small></h2>
+
+<div class="row">&nbsp;</div>
+
+<div class="col-md-4">
+    <h4>Comprehensive</h4>
+</div>
+
+<div class="col-md-4">
+    <h4>Third Party (Fire & Theft)</h4>
+</div>
+
+<div class="col-md-4">
+    <h4>Third Party</h4>
+</div>
+
+
+@foreach (var quote in @Model.Quotes)
+{
+    <div class="col-md-4">
+        <div class="@(quote.IsCheapest.HasValue && quote.IsCheapest.Value ? "alert alert-success" : "alert alert-warning")">
+            <table> 
+                <tr>
+                    <td style="width: 100px;">Insurer:</td>
+                    <td>@quote.Insurer</td>
+                </tr>
+                <tr>
+                    <td>Cover:</td>
+                    <td>@quote.QuoteType</td>
+                </tr>
+                <tr>
+                    <td>Cost:</td>
+                    <td>@String.Format(CultureInfo.CurrentCulture, "{0:C}", @quote.QuoteValue)</td>
+                </tr>
+            </table>
+        </div>
+</div>
+}
+
+

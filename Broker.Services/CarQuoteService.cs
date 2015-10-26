@@ -67,7 +67,7 @@ namespace Broker.Services
             foreach (var insurer in Enum.GetValues(typeof(Insurer)))
             {
                 serviceRequest.Insurer = (Insurer)insurer;
-                var response = await gateway.Post(serviceRequest, "/api/carinsurancequote");
+                var response = await gateway.Post(serviceRequest, "api/carinsurancequote");
 
                 if (response != null)
                 {

@@ -38,7 +38,7 @@ namespace Broker.Services
             _logger.Trace("Querying Car Finder Service for reg {0}", regNo);
 
             var gateway = _restFactory.CreateGateway<VehicleMetaData>(EndPoint.CarFinder);
-            var uri = string.Format("/api/car/{0}", regNo);
+            var uri = string.Format("api/car/{0}", regNo);
             
             var response = await gateway.Get(uri);
 
