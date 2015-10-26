@@ -28,6 +28,5 @@ namespace Thirdparty.Api.Contracts
 
         [Display(Name = "FBD Car Insurance")]
         Fbd
-
     }
 }
