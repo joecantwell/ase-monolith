@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ServiceConfiguration serviceName="CarFinder.Api.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
-  <Role name="CarFinder.Api">
-    <Instances count="1" />
-    <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=findmycar;AccountKey=gLO+dOzWQ9DuOH9QTrmBCP2apSH0EXcePjOIyanDoKPjnJzQOfg/9i0NCtOs/BmoFohsKnZ+P7WHsQ86XPmBpA==" />
-    </ConfigurationSettings>
-  </Role>
-</ServiceConfiguration>
