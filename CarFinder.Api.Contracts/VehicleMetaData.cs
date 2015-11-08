@@ -1,5 +1,6 @@
 ﻿
 
+using System;
 using System.Runtime.Serialization;
 
 namespace CarFinder.Api.Contracts
@@ -7,6 +8,9 @@ namespace CarFinder.Api.Contracts
     [DataContract]
     public class VehicleMetaData
     {
+        [DataMember]
+        public Guid VehicleRef { get; set; }
+
         [DataMember]
         public string VehicleDesc { get; set; }
 

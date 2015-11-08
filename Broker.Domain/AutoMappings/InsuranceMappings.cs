@@ -31,6 +31,7 @@ namespace Broker.Domain.AutoMappings
                 ;
 
             CreateMap<CarInsuranceQuoteRequest, CarQuoteRequestDto>()
+                .ForMember(dest => dest.VehicleRef, opts => opts.Ignore())
                 ;
 
             CreateMap<CarInsuranceQuoteResponse, CarQuoteResponseDto>()

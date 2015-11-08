@@ -24,7 +24,7 @@ namespace CarFinder.Api.Controllers
             {
                 var vehicle = await Task.FromResult<VehicleMetaData>(CarRegistrationService.GetVehicleByRegistration(id));
 
-                return Request.CreateResponse<VehicleMetaData>(HttpStatusCode.Created, vehicle);
+                return Request.CreateResponse<VehicleMetaData>(HttpStatusCode.OK, vehicle);
             }
             catch (Exception e)
             {

@@ -17,6 +17,7 @@ namespace Broker.Domain.Models
     {
         public int CarQuoteId { get; set; }
         public int VehicleId { get; set; }
+        public Guid VehicleRef { get; set; }
         public int? CountyId { get; set; }
         public int? NoClaimsDiscountYears { get; set; }
         public decimal? VehicleValue { get; set; }

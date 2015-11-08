@@ -16,10 +16,11 @@ namespace CarFinder.Api.Services
         /// <returns></returns>
         public static VehicleMetaData GetVehicleByRegistration(string carReg)
         {
-            Thread.Sleep(new TimeSpan(0,0,0,3)); // 3 second sleep
+            Thread.Sleep(new TimeSpan(0,0,0,1)); // 1 second sleep
 
             return new VehicleMetaData
             {
+                VehicleRef = Guid.NewGuid(),
                 CurrentRegistration = carReg,
                 BodyType = "Estate",
                 Colour = "Blue",

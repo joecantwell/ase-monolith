@@ -49,7 +49,9 @@
     <Content Include="Baseline\20-AddCarQuoteTables.sql" />
     <Content Include="Migrations\01\020_SeedData.sql" />
     <Content Include="Migrations\01\030_AddIsCheapestQuoteFlag.sql" />
+    <Content Include="Migrations\01\040_AddVehicleRef.sql" />
     <Content Include="Rollbacks\01\030_AddIsCheapestQuoteFlag.sql" />
+    <Content Include="Rollbacks\01\040_AddVehicleRef.sql" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

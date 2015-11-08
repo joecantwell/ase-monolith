@@ -9,6 +9,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Broker.Domain.Models;
@@ -35,6 +36,9 @@ namespace Broker.Domain.Commands
         public async Task<int> AddQuote(CarQuoteRequestDto request)
         {
             _logger.Trace("Persisting Quote prior to external query");
+
+            // only the ref is passed in. get the Id (FK constraint)
+            request.VehicleId = _context.VehicleDetails.First(x => x.VehicleRef == request.VehicleRef).VehicleId;
 
             var mappedQuote = Mapper.Map<CarInsuranceQuoteRequest>(request);
             mappedQuote.UTCDateAdded = DateTime.UtcNow;

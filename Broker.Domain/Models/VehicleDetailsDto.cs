@@ -7,6 +7,8 @@ namespace Broker.Domain.Models
     {
         public int VehicleId { get; set; }
 
+        public Guid VehicleRef { get; set; }
+
         public string ModelName { get; set; }
 
         public string ModelDesc { get; set; }

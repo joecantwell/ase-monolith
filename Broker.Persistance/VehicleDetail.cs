@@ -30,6 +30,7 @@ namespace Broker.Persistance
         public string Transmission { get; set; }
         public Nullable<bool> IsImport { get; set; }
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
+        public Nullable<System.Guid> VehicleRef { get; set; }
     
         public virtual ICollection<CarInsuranceQuoteRequest> CarInsuranceQuoteRequests { get; set; }
     }

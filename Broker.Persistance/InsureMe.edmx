@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="INSUREMEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="INSUREMEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CarInsuranceQuoteRequest">
           <Key>
             <PropertyRef Name="CarQuoteId" />
@@ -46,6 +46,7 @@
           <Property Name="Transmission" Type="nvarchar" MaxLength="64" />
           <Property Name="IsImport" Type="bit" />
           <Property Name="UTCDateAdded" Type="datetime" />
+          <Property Name="VehicleRef" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Counties">
           <Key>
@@ -188,6 +189,7 @@
           <Property Name="IsImport" Type="Boolean" />
           <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CarInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_CarInsuranceQuoteRequest_VehicleDetails" FromRole="VehicleDetail" ToRole="CarInsuranceQuoteRequest" />
+          <Property Name="VehicleRef" Type="Guid" />
         </EntityType>
         <EntityType Name="County">
           <Key>
@@ -280,6 +282,7 @@
           <EntitySetMapping Name="VehicleDetails">
             <EntityTypeMapping TypeName="INSUREMEModel.VehicleDetail">
               <MappingFragment StoreEntitySet="VehicleDetails">
+                <ScalarProperty Name="VehicleRef" ColumnName="VehicleRef" />
                 <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
                 <ScalarProperty Name="IsImport" ColumnName="IsImport" />
                 <ScalarProperty Name="Transmission" ColumnName="Transmission" />

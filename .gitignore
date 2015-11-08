@@ -173,6 +173,7 @@ ClientBin/
 *.dbproj.schemaview
 *.pfx
 *.publishsettings
+*.cscfg  #avoid azure config files being passed Up!
 node_modules/
 orleans.codegen.cs
 
