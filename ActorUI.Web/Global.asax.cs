@@ -25,7 +25,7 @@ namespace ActorUI.Web
 
             //register toplevel actor(s)
             SystemActors.VehicleActor = actorSystem.ActorOf(Props.Create(typeof(VehicleActor)), "FindMyCarActor");          
-            SystemActors.QuoteActor = actorSystem.ActorOf(Props.Create(typeof(InsuranceQuoteActor)), "InsuranceQuote");
+            SystemActors.QuoteActor = actorSystem.ActorOf(Props.Create(typeof(QuoteCoordinatorActor)), "InsuranceQuote");
         }
 
         protected void Application_End()

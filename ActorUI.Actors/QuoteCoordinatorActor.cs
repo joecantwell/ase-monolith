@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ActorUI.Actors.Messages;
 using Akka.Actor;
+using Akka.Event;
 using Akka.Routing;
 using Broker.Domain.Commands;
 using Broker.Domain.Models;
@@ -22,18 +23,26 @@ using Thirdparty.Api.Contracts;
 
 namespace ActorUI.Actors
 {
-    public class InsuranceQuoteActor : ReceiveActor
+    /// <summary>
+    /// http://getakka.net/docs/Props
+    /// </summary>
+    public class QuoteCoordinatorActor : ReceiveActor
     {
-        private readonly Entities _context;
-        private readonly IActorRef insuranceServices;
+        private readonly ILoggingAdapter _log = Context.GetLogger();
 
-        public InsuranceQuoteActor()
+        private readonly Entities _context;
+        private readonly IActorRef _quoteServices;
+        private IEnumerable<CarQuoteResponseDto> _allQuotes;
+      
+
+        public QuoteCoordinatorActor()
         {
             _context = new Entities();
+            _allQuotes = new List<CarQuoteResponseDto>();
 
-            int noInsurers = Enum.GetNames(typeof(Insurer)).Length; // get num of insurance services
             // create a child actor for each insurance service
-            insuranceServices = Context.ActorOf(Props.Create(typeof(InsuranceServiceActor)).WithRouter(new RoundRobinPool(noInsurers)), "ServiceInterrogator");
+            int numInsurers = Enum.GetNames(typeof(Insurer)).Length;
+            _quoteServices = Context.ActorOf(Props.Create(typeof(QuoteServiceActor)).WithRouter(new RoundRobinPool(numInsurers)), "ServiceInterrogator");
 
             Ready();
         }
@@ -48,11 +57,8 @@ namespace ActorUI.Actors
                 carQuoteRequestWriter.AddQuote(req.QuoteRequest).ContinueWith(s => s.Result).PipeTo(senderClosure);
             });
 
-            Receive<CollateQuotes>(req =>
+            Receive<RequestQuotes>(req =>
             {
-                var senderClosure = Sender;
-                var self = Self;
-
                 // build the object to post
                 var serviceRequest = new ServiceCarInsuranceQuoteRequest
                 {
@@ -66,15 +72,23 @@ namespace ActorUI.Actors
                     ManufYear = req.VehicleDetails.ManufYear.HasValue ? req.VehicleDetails.ManufYear.Value : 0,
                 };
 
-                // push the service request to the children
-                IEnumerable<CarQuoteResponseDto> allQuotes = new List<CarQuoteResponseDto>();
+                // push the service request to the service workers            
                 foreach (var insurer in Enum.GetValues(typeof(Insurer)))
                 {
                     serviceRequest.Insurer = (Insurer)insurer;
-                    var quotes = insuranceServices.Ask<IEnumerable<CarQuoteResponseDto>>(new GetQuotesFromService(req.ServiceLocation, serviceRequest)).Result;
-                    allQuotes = allQuotes.Concat(quotes); 
+                    _quoteServices.Tell(new GetQuotesFromService(req.ServiceLocation, serviceRequest));
+
+                    _log.Debug("Fired Request for {0}", insurer);
                 }
 
+            });
+
+            Receive<QuotesReturnedFromService>(req =>
+            {
+                 _log.Debug("Appending {0} Logs", req.QuotesFromService.Count);
+               
+                 ICarQuoteResponseWriter carQuoteResponseWriter = new CarQuoteResponseWriter(_context);
+                 carQuoteResponseWriter.AddResponse(req.QuotesFromService);
             });
 
             Receive<ListQuotes>(req =>
@@ -82,7 +96,26 @@ namespace ActorUI.Actors
                 var senderClosure = Sender;
                 ICarQuoteResponseReader carQuoteResponseReader = new CarQuoteResponseReader(_context);
 
-                carQuoteResponseReader.GetQuoteResponses(req.QuoteId).ContinueWith(s => s.Result).PipeTo(senderClosure);
+                carQuoteResponseReader.GetQuoteResponses(req.QuoteId).ContinueWith(s =>
+                {
+                    var quotes = s.Result; // records returned from db.
+                    var cheapestQuotes = quotes
+                                           .GroupBy(x => x.QuoteType)
+                                           .SelectMany(y => y.OrderBy(x => x.QuoteValue)
+                                           .Take(1));
+
+                    // set ischeapest flag for UI
+                    foreach (var quote in quotes)
+                    {
+                        if (cheapestQuotes.Contains(quote))
+                        {
+                            quote.IsCheapest = true;
+                        }
+                    }
+
+                    return quotes;
+
+                }).PipeTo(senderClosure);
             });
         }
     }

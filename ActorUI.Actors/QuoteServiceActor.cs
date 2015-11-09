@@ -27,9 +27,9 @@ namespace ActorUI.Actors
     /// THis Actor will be spawned from the InsuranceQuoteActor when it wants to collate 
     /// quotes from all available insurance companies
     /// </summary>
-    public class InsuranceServiceActor : ReceiveActor
+    public class QuoteServiceActor : ReceiveActor
     {
-        public InsuranceServiceActor()
+        public QuoteServiceActor()
         {
             Ready();
         }
@@ -40,7 +40,7 @@ namespace ActorUI.Actors
             {
                 var senderClosure = Sender;
                 var client = new HttpClient { BaseAddress = req.ServiceLocation };
-                
+
                 client.PostAsJsonAsync("api/carinsurancequote", req.InsuranceRequest).ContinueWith(httpRequest =>
                 {
                     var response = httpRequest.Result;
@@ -49,14 +49,12 @@ namespace ActorUI.Actors
                     {
                         var quotes = response.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
 
-                        return Mapper.Map<IEnumerable<CarQuoteResponseDto>>(quotes);
+                        return new QuotesReturnedFromService(Mapper.Map<IEnumerable<CarQuoteResponseDto>>(quotes.Result).ToList());
                     }
 
                     return null;
 
-                }, TaskContinuationOptions.AttachedToParent &
-                    TaskContinuationOptions.ExecuteSynchronously)
-                    .PipeTo(senderClosure);    
+                }).PipeTo(senderClosure);    
             });
         }
     }

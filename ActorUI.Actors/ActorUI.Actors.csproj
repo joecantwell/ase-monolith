@@ -69,11 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InsuranceServiceActor.cs" />
+    <Compile Include="QuoteServiceActor.cs" />
     <Compile Include="Messages\QuoteMessages.cs" />
     <Compile Include="SystemActors.cs" />
     <Compile Include="VehicleActor.cs" />
-    <Compile Include="InsuranceQuoteActor.cs" />
+    <Compile Include="QuoteCoordinatorActor.cs" />
     <Compile Include="Messages\VehicleMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

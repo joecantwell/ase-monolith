@@ -51,7 +51,7 @@ namespace ActorUI.Web.Controllers
                 model.CarQuoteRequest.CarQuoteId = await SystemActors.QuoteActor.Ask<int>(new SaveQuoteRequest(model.CarQuoteRequest));
 
                 // populate the database
-                SystemActors.QuoteActor.Tell(new CollateQuotes(model.CarQuoteRequest, model.Vehicle, _systemConfiguration.ServicesBaseUri));
+                SystemActors.QuoteActor.Tell(new RequestQuotes(model.CarQuoteRequest, model.Vehicle, _systemConfiguration.ServicesBaseUri));
 
             }
             catch (Exception e)
