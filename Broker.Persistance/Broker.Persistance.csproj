@@ -51,57 +51,55 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CarInsuranceQuoteRequest.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="CarInsuranceQuoteResponse.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="County.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="InsureMe.Context.cs">
+    <Compile Include="Entities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InsureMe.Context.tt</DependentUpon>
+      <DependentUpon>Entities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="InsureMe.cs">
+    <Compile Include="Entities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InsureMe.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="InsureMe.Designer.cs">
+    <Compile Include="Entities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InsureMe.edmx</DependentUpon>
+      <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Town.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="VehicleDetail.cs">
-      <DependentUpon>InsureMe.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="InsureMe.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>InsureMe.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="InsureMe.Context.tt">
+    <EntityDeploy Include="Entities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InsureMe.Context.cs</LastGenOutput>
-      <DependentUpon>InsureMe.edmx</DependentUpon>
+      <DependentUpon>Entities.edmx</DependentUpon>
+      <LastGenOutput>Entities.Context.cs</LastGenOutput>
     </None>
-    <None Include="InsureMe.edmx.diagram">
-      <DependentUpon>InsureMe.edmx</DependentUpon>
+    <None Include="Entities.edmx.diagram">
+      <DependentUpon>Entities.edmx</DependentUpon>
     </None>
-    <None Include="InsureMe.tt">
+    <None Include="Entities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InsureMe.edmx</DependentUpon>
-      <LastGenOutput>InsureMe.cs</LastGenOutput>
+      <DependentUpon>Entities.edmx</DependentUpon>
+      <LastGenOutput>Entities.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3d5541c53f6b4a6f810e12cd8a9ec57e" Name="Diagram1">
+        <EntityTypeShape EntityType="INSUREME2.CarInsuranceQuoteRequest" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="INSUREME2.CarInsuranceQuoteResponse" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="INSUREME2.VehicleDetail" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="INSUREME2.County" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="INSUREME2.Town" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="INSUREME2.FK_CarInsuranceQuoteRequest_Counties" ManuallyRouted="false" />
+        <AssociationConnector Association="INSUREME2.FK_CarInsuranceQuoteRequest_VehicleDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="INSUREME2.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

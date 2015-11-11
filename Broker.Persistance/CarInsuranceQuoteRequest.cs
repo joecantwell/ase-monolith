@@ -14,6 +14,7 @@ namespace Broker.Persistance
     
     public partial class CarInsuranceQuoteRequest
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CarInsuranceQuoteRequest()
         {
             this.CarInsuranceQuoteResponses = new HashSet<CarInsuranceQuoteResponse>();
@@ -31,6 +32,7 @@ namespace Broker.Persistance
     
         public virtual County County { get; set; }
         public virtual VehicleDetail VehicleDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarInsuranceQuoteResponse> CarInsuranceQuoteResponses { get; set; }
     }
 }

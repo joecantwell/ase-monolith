@@ -14,6 +14,7 @@ namespace Broker.Persistance
     
     public partial class County
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public County()
         {
             this.CarInsuranceQuoteRequests = new HashSet<CarInsuranceQuoteRequest>();
@@ -23,6 +24,7 @@ namespace Broker.Persistance
         public string CountyName { get; set; }
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarInsuranceQuoteRequest> CarInsuranceQuoteRequests { get; set; }
     }
 }

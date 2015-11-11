@@ -175,6 +175,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="NLog.Config" />
     <Content Include="NuGet.Config" />
+    <None Include="Properties\PublishProfiles\actorui.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\default.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

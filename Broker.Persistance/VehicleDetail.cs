@@ -14,6 +14,7 @@ namespace Broker.Persistance
     
     public partial class VehicleDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public VehicleDetail()
         {
             this.CarInsuranceQuoteRequests = new HashSet<CarInsuranceQuoteRequest>();
@@ -32,6 +33,7 @@ namespace Broker.Persistance
         public Nullable<System.DateTime> UTCDateAdded { get; set; }
         public Nullable<System.Guid> VehicleRef { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarInsuranceQuoteRequest> CarInsuranceQuoteRequests { get; set; }
     }
 }

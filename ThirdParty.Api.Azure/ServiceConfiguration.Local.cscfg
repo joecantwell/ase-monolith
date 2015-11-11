@@ -3,7 +3,7 @@
   <Role name="ThirdParty.Api">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=insureme;AccountKey=Tb4nT24xmXuguUfforpy/7agss0Vl+uHR5L/SKF7t9kK15JBwz3vTlSk5gwtyGCa3fvkmlUoXNYebxSAGt8Wjw==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="INSUREMEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="INSUREME2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CarInsuranceQuoteRequest">
           <Key>
             <PropertyRef Name="CarQuoteId" />
@@ -101,7 +101,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="INSUREMEModelStoreContainer">
+        <EntityContainer Name="INSUREME2StoreContainer">
           <EntitySet Name="CarInsuranceQuoteRequest" EntityType="Self.CarInsuranceQuoteRequest" Schema="car" store:Type="Tables" />
           <EntitySet Name="CarInsuranceQuoteResponse" EntityType="Self.CarInsuranceQuoteResponse" Schema="car" store:Type="Tables" />
           <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetails" Schema="car" store:Type="Tables" />
@@ -120,29 +120,11 @@
             <End Role="CarInsuranceQuoteResponse" EntitySet="CarInsuranceQuoteResponse" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="INSUREMEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CarInsuranceQuoteRequests" EntityType="INSUREMEModel.CarInsuranceQuoteRequest" />
-          <EntitySet Name="CarInsuranceQuoteResponses" EntityType="INSUREMEModel.CarInsuranceQuoteResponse" />
-          <EntitySet Name="VehicleDetails" EntityType="INSUREMEModel.VehicleDetail" />
-          <EntitySet Name="Counties" EntityType="INSUREMEModel.County" />
-          <EntitySet Name="Towns" EntityType="INSUREMEModel.Town" />
-          <AssociationSet Name="FK_CarInsuranceQuoteRequest_Counties" Association="INSUREMEModel.FK_CarInsuranceQuoteRequest_Counties">
-            <End Role="County" EntitySet="Counties" />
-            <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequests" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CarInsuranceQuoteRequest_VehicleDetails" Association="INSUREMEModel.FK_CarInsuranceQuoteRequest_VehicleDetails">
-            <End Role="VehicleDetail" EntitySet="VehicleDetails" />
-            <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequests" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" Association="INSUREMEModel.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest">
-            <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequests" />
-            <End Role="CarInsuranceQuoteResponse" EntitySet="CarInsuranceQuoteResponses" />
-          </AssociationSet>
-        </EntityContainer>
+      <Schema Namespace="INSUREME2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="CarInsuranceQuoteRequest">
           <Key>
             <PropertyRef Name="CarQuoteId" />
@@ -156,9 +138,9 @@
           <Property Name="EmailAddress" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="Telephone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="County" Relationship="INSUREMEModel.FK_CarInsuranceQuoteRequest_Counties" FromRole="CarInsuranceQuoteRequest" ToRole="County" />
-          <NavigationProperty Name="VehicleDetail" Relationship="INSUREMEModel.FK_CarInsuranceQuoteRequest_VehicleDetails" FromRole="CarInsuranceQuoteRequest" ToRole="VehicleDetail" />
-          <NavigationProperty Name="CarInsuranceQuoteResponses" Relationship="INSUREMEModel.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" FromRole="CarInsuranceQuoteRequest" ToRole="CarInsuranceQuoteResponse" />
+          <NavigationProperty Name="County" Relationship="Self.FK_CarInsuranceQuoteRequest_Counties" FromRole="CarInsuranceQuoteRequest" ToRole="Counties" />
+          <NavigationProperty Name="VehicleDetail" Relationship="Self.FK_CarInsuranceQuoteRequest_VehicleDetails" FromRole="CarInsuranceQuoteRequest" ToRole="VehicleDetails" />
+          <NavigationProperty Name="CarInsuranceQuoteResponses" Relationship="Self.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" FromRole="CarInsuranceQuoteRequest" ToRole="CarInsuranceQuoteResponse" />
         </EntityType>
         <EntityType Name="CarInsuranceQuoteResponse">
           <Key>
@@ -170,8 +152,8 @@
           <Property Name="QuoteType" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="QuoteValue" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CarInsuranceQuoteRequest" Relationship="INSUREMEModel.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" FromRole="CarInsuranceQuoteResponse" ToRole="CarInsuranceQuoteRequest" />
           <Property Name="IsCheapest" Type="Boolean" />
+          <NavigationProperty Name="CarInsuranceQuoteRequest" Relationship="Self.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" FromRole="CarInsuranceQuoteResponse" ToRole="CarInsuranceQuoteRequest" />
         </EntityType>
         <EntityType Name="VehicleDetail">
           <Key>
@@ -188,8 +170,8 @@
           <Property Name="Transmission" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="IsImport" Type="Boolean" />
           <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CarInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_CarInsuranceQuoteRequest_VehicleDetails" FromRole="VehicleDetail" ToRole="CarInsuranceQuoteRequest" />
           <Property Name="VehicleRef" Type="Guid" />
+          <NavigationProperty Name="CarInsuranceQuoteRequests" Relationship="Self.FK_CarInsuranceQuoteRequest_VehicleDetails" FromRole="VehicleDetails" ToRole="CarInsuranceQuoteRequest" />
         </EntityType>
         <EntityType Name="County">
           <Key>
@@ -198,7 +180,7 @@
           <Property Name="CountyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountyName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CarInsuranceQuoteRequests" Relationship="INSUREMEModel.FK_CarInsuranceQuoteRequest_Counties" FromRole="County" ToRole="CarInsuranceQuoteRequest" />
+          <NavigationProperty Name="CarInsuranceQuoteRequests" Relationship="Self.FK_CarInsuranceQuoteRequest_Counties" FromRole="Counties" ToRole="CarInsuranceQuoteRequest" />
         </EntityType>
         <EntityType Name="Town">
           <Key>
@@ -210,10 +192,10 @@
           <Property Name="UTCDateAdded" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_CarInsuranceQuoteRequest_Counties">
-          <End Type="INSUREMEModel.County" Role="County" Multiplicity="0..1" />
-          <End Type="INSUREMEModel.CarInsuranceQuoteRequest" Role="CarInsuranceQuoteRequest" Multiplicity="*" />
+          <End Role="Counties" Type="Self.County" Multiplicity="0..1" />
+          <End Role="CarInsuranceQuoteRequest" Type="Self.CarInsuranceQuoteRequest" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="County">
+            <Principal Role="Counties">
               <PropertyRef Name="CountyId" />
             </Principal>
             <Dependent Role="CarInsuranceQuoteRequest">
@@ -222,10 +204,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CarInsuranceQuoteRequest_VehicleDetails">
-          <End Type="INSUREMEModel.VehicleDetail" Role="VehicleDetail" Multiplicity="1" />
-          <End Type="INSUREMEModel.CarInsuranceQuoteRequest" Role="CarInsuranceQuoteRequest" Multiplicity="*" />
+          <End Role="VehicleDetails" Type="Self.VehicleDetail" Multiplicity="1" />
+          <End Role="CarInsuranceQuoteRequest" Type="Self.CarInsuranceQuoteRequest" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="VehicleDetail">
+            <Principal Role="VehicleDetails">
               <PropertyRef Name="VehicleId" />
             </Principal>
             <Dependent Role="CarInsuranceQuoteRequest">
@@ -234,8 +216,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest">
-          <End Type="INSUREMEModel.CarInsuranceQuoteRequest" Role="CarInsuranceQuoteRequest" Multiplicity="1" />
-          <End Type="INSUREMEModel.CarInsuranceQuoteResponse" Role="CarInsuranceQuoteResponse" Multiplicity="*" />
+          <End Role="CarInsuranceQuoteRequest" Type="Self.CarInsuranceQuoteRequest" Multiplicity="1" />
+          <End Role="CarInsuranceQuoteResponse" Type="Self.CarInsuranceQuoteResponse" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CarInsuranceQuoteRequest">
               <PropertyRef Name="CarQuoteId" />
@@ -245,74 +227,93 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarInsuranceQuoteRequests" EntityType="Self.CarInsuranceQuoteRequest" />
+          <EntitySet Name="CarInsuranceQuoteResponses" EntityType="Self.CarInsuranceQuoteResponse" />
+          <EntitySet Name="VehicleDetails" EntityType="Self.VehicleDetail" />
+          <EntitySet Name="Counties" EntityType="Self.County" />
+          <EntitySet Name="Towns" EntityType="Self.Town" />
+          <AssociationSet Name="FK_CarInsuranceQuoteRequest_Counties" Association="Self.FK_CarInsuranceQuoteRequest_Counties">
+            <End Role="Counties" EntitySet="Counties" />
+            <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarInsuranceQuoteRequest_VehicleDetails" Association="Self.FK_CarInsuranceQuoteRequest_VehicleDetails">
+            <End Role="VehicleDetails" EntitySet="VehicleDetails" />
+            <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" Association="Self.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest">
+            <End Role="CarInsuranceQuoteRequest" EntitySet="CarInsuranceQuoteRequests" />
+            <End Role="CarInsuranceQuoteResponse" EntitySet="CarInsuranceQuoteResponses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="INSUREMEModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="INSUREME2StoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="CarInsuranceQuoteRequests">
-            <EntityTypeMapping TypeName="INSUREMEModel.CarInsuranceQuoteRequest">
+            <EntityTypeMapping TypeName="INSUREME2.CarInsuranceQuoteRequest">
               <MappingFragment StoreEntitySet="CarInsuranceQuoteRequest">
-                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="DriverAge" ColumnName="DriverAge" />
-                <ScalarProperty Name="VehicleValue" ColumnName="VehicleValue" />
-                <ScalarProperty Name="NoClaimsDiscountYears" ColumnName="NoClaimsDiscountYears" />
-                <ScalarProperty Name="CountyId" ColumnName="CountyId" />
-                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
                 <ScalarProperty Name="CarQuoteId" ColumnName="CarQuoteId" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="CountyId" ColumnName="CountyId" />
+                <ScalarProperty Name="NoClaimsDiscountYears" ColumnName="NoClaimsDiscountYears" />
+                <ScalarProperty Name="VehicleValue" ColumnName="VehicleValue" />
+                <ScalarProperty Name="DriverAge" ColumnName="DriverAge" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CarInsuranceQuoteResponses">
-            <EntityTypeMapping TypeName="INSUREMEModel.CarInsuranceQuoteResponse">
+            <EntityTypeMapping TypeName="INSUREME2.CarInsuranceQuoteResponse">
               <MappingFragment StoreEntitySet="CarInsuranceQuoteResponse">
-                <ScalarProperty Name="IsCheapest" ColumnName="IsCheapest" />
-                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
-                <ScalarProperty Name="QuoteValue" ColumnName="QuoteValue" />
-                <ScalarProperty Name="QuoteType" ColumnName="QuoteType" />
-                <ScalarProperty Name="Insurer" ColumnName="Insurer" />
-                <ScalarProperty Name="CarQuoteId" ColumnName="CarQuoteId" />
                 <ScalarProperty Name="ResponseId" ColumnName="ResponseId" />
+                <ScalarProperty Name="CarQuoteId" ColumnName="CarQuoteId" />
+                <ScalarProperty Name="Insurer" ColumnName="Insurer" />
+                <ScalarProperty Name="QuoteType" ColumnName="QuoteType" />
+                <ScalarProperty Name="QuoteValue" ColumnName="QuoteValue" />
+                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
+                <ScalarProperty Name="IsCheapest" ColumnName="IsCheapest" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VehicleDetails">
-            <EntityTypeMapping TypeName="INSUREMEModel.VehicleDetail">
+            <EntityTypeMapping TypeName="INSUREME2.VehicleDetail">
               <MappingFragment StoreEntitySet="VehicleDetails">
-                <ScalarProperty Name="VehicleRef" ColumnName="VehicleRef" />
-                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
-                <ScalarProperty Name="IsImport" ColumnName="IsImport" />
-                <ScalarProperty Name="Transmission" ColumnName="Transmission" />
-                <ScalarProperty Name="FuelType" ColumnName="FuelType" />
-                <ScalarProperty Name="BodyType" ColumnName="BodyType" />
-                <ScalarProperty Name="Colour" ColumnName="Colour" />
-                <ScalarProperty Name="CurrentRegistration" ColumnName="CurrentRegistration" />
-                <ScalarProperty Name="ManufYear" ColumnName="ManufYear" />
-                <ScalarProperty Name="ModelDesc" ColumnName="ModelDesc" />
-                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
                 <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="ModelDesc" ColumnName="ModelDesc" />
+                <ScalarProperty Name="ManufYear" ColumnName="ManufYear" />
+                <ScalarProperty Name="CurrentRegistration" ColumnName="CurrentRegistration" />
+                <ScalarProperty Name="Colour" ColumnName="Colour" />
+                <ScalarProperty Name="BodyType" ColumnName="BodyType" />
+                <ScalarProperty Name="FuelType" ColumnName="FuelType" />
+                <ScalarProperty Name="Transmission" ColumnName="Transmission" />
+                <ScalarProperty Name="IsImport" ColumnName="IsImport" />
+                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
+                <ScalarProperty Name="VehicleRef" ColumnName="VehicleRef" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Counties">
-            <EntityTypeMapping TypeName="INSUREMEModel.County">
+            <EntityTypeMapping TypeName="INSUREME2.County">
               <MappingFragment StoreEntitySet="Counties">
-                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
-                <ScalarProperty Name="CountyName" ColumnName="CountyName" />
                 <ScalarProperty Name="CountyId" ColumnName="CountyId" />
+                <ScalarProperty Name="CountyName" ColumnName="CountyName" />
+                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Towns">
-            <EntityTypeMapping TypeName="INSUREMEModel.Town">
+            <EntityTypeMapping TypeName="INSUREME2.Town">
               <MappingFragment StoreEntitySet="Towns">
-                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
-                <ScalarProperty Name="CountyId" ColumnName="CountyId" />
-                <ScalarProperty Name="TownName" ColumnName="TownName" />
                 <ScalarProperty Name="TownId" ColumnName="TownId" />
+                <ScalarProperty Name="TownName" ColumnName="TownName" />
+                <ScalarProperty Name="CountyId" ColumnName="CountyId" />
+                <ScalarProperty Name="UTCDateAdded" ColumnName="UTCDateAdded" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

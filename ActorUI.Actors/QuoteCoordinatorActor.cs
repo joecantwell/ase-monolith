@@ -9,14 +9,12 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using ActorUI.Actors.Messages;
 using Akka.Actor;
 using Akka.Event;
 using Akka.Routing;
 using Broker.Domain.Commands;
-using Broker.Domain.Models;
 using Broker.Domain.Queries;
 using Broker.Persistance;
 using Thirdparty.Api.Contracts;
@@ -32,13 +30,11 @@ namespace ActorUI.Actors
 
         private readonly Entities _context;
         private readonly IActorRef _quoteServices;
-        private IEnumerable<CarQuoteResponseDto> _allQuotes;
       
 
         public QuoteCoordinatorActor()
         {
             _context = new Entities();
-            _allQuotes = new List<CarQuoteResponseDto>();
 
             // create a child actor for each insurance service
             int numInsurers = Enum.GetNames(typeof(Insurer)).Length;
