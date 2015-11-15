@@ -6,6 +6,7 @@ using System.Web.Routing;
 using ActorUI.Actors;
 using ActorUI.Web.App_Start;
 using Akka.Actor;
+using Broker.Persistance;
 
 namespace ActorUI.Web
 {
@@ -24,8 +25,8 @@ namespace ActorUI.Web
             var actorSystem = ActorSystemRefs.ActorSystem;
 
             //register toplevel actor(s)
-            SystemActors.VehicleActor = actorSystem.ActorOf(Props.Create(typeof(VehicleActor)), "FindMyCarActor");          
-            SystemActors.QuoteActor = actorSystem.ActorOf(Props.Create(typeof(QuoteCoordinatorActor)), "InsuranceQuote");
+            SystemActors.VehicleActor = actorSystem.ActorOf(Props.Create(() => new VehicleActor(new Entities())), "FindMyCarActor");          
+            SystemActors.QuoteActor = actorSystem.ActorOf(Props.Create(() => new QuoteCoordinatorActor(new Entities())), "InsuranceQuote");
         }
 
         protected void Application_End()

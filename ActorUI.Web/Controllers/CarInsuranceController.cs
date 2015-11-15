@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ActorUI.Actors;
@@ -48,10 +49,8 @@ namespace ActorUI.Web.Controllers
                 model.CarQuoteRequest.VehicleValue = value;
                 model.CarQuoteRequest.VehicleRef = model.Vehicle.VehicleRef;
 
-                model.CarQuoteRequest.CarQuoteId = await SystemActors.QuoteActor.Ask<int>(new SaveQuoteRequest(model.CarQuoteRequest));
-
-                // populate the database
-                SystemActors.QuoteActor.Tell(new RequestQuotes(model.CarQuoteRequest, model.Vehicle, _systemConfiguration.ServicesBaseUri));
+                // populate the database & query the external services for quotes
+                model.CarQuoteRequest.CarQuoteId = await SystemActors.QuoteActor.Ask<int>(new RequestQuotes(model.CarQuoteRequest, model.Vehicle, _systemConfiguration.ServicesBaseUri));
 
             }
             catch (Exception e)
@@ -59,17 +58,26 @@ namespace ActorUI.Web.Controllers
                 _logger.Error(e.ToString());
             }
 
-            return RedirectToAction("Details", new { id = model.CarQuoteRequest.CarQuoteId });
+            return RedirectToAction("Details", new {id = model.CarQuoteRequest.CarQuoteId});
         }
 
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
-            // get the quotes from the db
-            var quotes = await SystemActors.QuoteActor.Ask<IEnumerable<CarQuoteResponseDto>>(new ListQuotes(id));
+            // Sit here for a max of n seconds and wait for the quote results to be persisted 
+            for (int i = 0; i < 5; i++)
+            {
+                Thread.Sleep(1000);
+                bool isPersistedSuccessfully = await SystemActors.QuoteActor.Ask<bool>(new IsLoadComplete());
+                if (isPersistedSuccessfully)
+                    break;
+            }
           
-            return View(new QuotesReturnedViewModel{Quotes = quotes});
+            var quotes = await SystemActors.QuoteActor.Ask<IEnumerable<CarQuoteResponseDto>>(new ListQuotes(id));
+
+            return View(new QuotesReturnedViewModel{ Quotes = quotes});
         }
+
 
         [HttpGet]
         public async Task<JsonResult> CheckCar(string regNo)

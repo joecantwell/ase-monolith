@@ -8,17 +8,17 @@
 //
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using ActorUI.Actors.Messages;
 using Akka.Actor;
+using Akka.Event;
 using AutoMapper;
+using Broker.Domain.Commands;
 using Broker.Domain.Models;
+using Broker.Persistance;
 using Thirdparty.Api.Contracts;
 
 namespace ActorUI.Actors
@@ -29,16 +29,20 @@ namespace ActorUI.Actors
     /// </summary>
     public class QuoteServiceActor : ReceiveActor
     {
+        private readonly ILoggingAdapter _log = Context.GetLogger();
+       // readonly ICarQuoteResponseWriter _carQuoteResponseWriter;
+
         public QuoteServiceActor()
         {
-            Ready();
+           //  _carQuoteResponseWriter = new CarQuoteResponseWriter(context);
+            ReceiptListener();
         }
 
-        private void Ready()
+        private void ReceiptListener()
         {
             Receive<GetQuotesFromService>(req =>
             {
-                var senderClosure = Sender;
+                var senderClosure = this.Sender;
                 var client = new HttpClient { BaseAddress = req.ServiceLocation };
 
                 client.PostAsJsonAsync("api/carinsurancequote", req.InsuranceRequest).ContinueWith(httpRequest =>
@@ -49,6 +53,8 @@ namespace ActorUI.Actors
                     {
                         var quotes = response.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
 
+                        _log.Debug("result returned from quote service");
+
                         return new QuotesReturnedFromService(Mapper.Map<IEnumerable<CarQuoteResponseDto>>(quotes.Result).ToList());
                     }
 
@@ -56,6 +62,18 @@ namespace ActorUI.Actors
 
                 }).PipeTo(senderClosure);    
             });
+
+            // Listener for QuoteServices Results
+            /*
+            Receive<QuotesReturnedFromService>(req => 
+            {
+                if (req == null)
+                    return;
+                   
+                _log.Debug("Appending {0} Logs", req.QuotesFromService.Count);            
+                _carQuoteResponseWriter.AddResponse(req.QuotesFromService);              
+            });
+             */
         }
     }
 }

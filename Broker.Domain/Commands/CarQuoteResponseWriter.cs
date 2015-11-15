@@ -20,7 +20,7 @@ namespace Broker.Domain.Commands
 {
     public interface ICarQuoteResponseWriter
     {
-        Task AddResponse(IEnumerable<CarQuoteResponseDto> response);
+        Task<bool> AddResponse(IEnumerable<CarQuoteResponseDto> response);
     }
 
     public class CarQuoteResponseWriter : ICarQuoteResponseWriter
@@ -33,12 +33,13 @@ namespace Broker.Domain.Commands
         }
 
 
-        public async Task AddResponse(IEnumerable<CarQuoteResponseDto> response)
+        public async Task<bool> AddResponse(IEnumerable<CarQuoteResponseDto> response)
         {
             var mapppedObjects = Mapper.Map<IEnumerable<CarInsuranceQuoteResponse>>(response);
            
             _context.CarInsuranceQuoteResponses.AddRange(mapppedObjects);
             await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -20,12 +20,11 @@
     <h4>Third Party</h4>
 </div>
 
-
 @foreach (var quote in @Model.Quotes)
 {
     <div class="col-md-4">
         <div class="@(quote.IsCheapest.HasValue && quote.IsCheapest.Value ? "alert alert-success" : "alert alert-warning")">
-            <table> 
+            <table>
                 <tr>
                     <td style="width: 100px;">Insurer:</td>
                     <td>@quote.Insurer</td>
@@ -40,7 +39,11 @@
                 </tr>
             </table>
         </div>
-</div>
+    </div>
 }
+
+
+
+
 
 

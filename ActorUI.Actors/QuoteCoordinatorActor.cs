@@ -1,21 +1,15 @@
-﻿// <copyright company="Action Point Innovation Ltd.">
-// Copyright (c) 2013 All Right Reserved
-//
-// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY 
-// KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// PARTICULAR PURPOSE.
-//
-// </copyright>
-
+﻿
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
 using ActorUI.Actors.Messages;
 using Akka.Actor;
 using Akka.Event;
 using Akka.Routing;
 using Broker.Domain.Commands;
-using Broker.Domain.Queries;
+using Broker.Domain.Models;
 using Broker.Persistance;
 using Thirdparty.Api.Contracts;
 
@@ -28,90 +22,126 @@ namespace ActorUI.Actors
     {
         private readonly ILoggingAdapter _log = Context.GetLogger();
 
-        private readonly Entities _context;
-        private readonly IActorRef _quoteServices;
-      
+        private readonly IActorRef _quoteServicesPool;
+        private readonly ICarQuoteResponseWriter _carQuoteResponseWriter;
+        private readonly ICarQuoteRequestWriter _carQuoteRequestWriter;
 
-        public QuoteCoordinatorActor()
+        private readonly List<CarQuoteResponseDto> _quoteResults = new List<CarQuoteResponseDto>();
+        private readonly int _numInsurers = Enum.GetNames(typeof (Insurer)).Length; // no of insurers configured
+        private readonly Timer _serviceTimer;
+        private Boolean _isTimedOut, _isLoadComplete;
+
+        public QuoteCoordinatorActor(Entities context)
         {
-            _context = new Entities();
+            _carQuoteResponseWriter = new CarQuoteResponseWriter(context);
+            _carQuoteRequestWriter = new CarQuoteRequestWriter(context);
 
-            // create a child actor for each insurance service
-            int numInsurers = Enum.GetNames(typeof(Insurer)).Length;
-            _quoteServices = Context.ActorOf(Props.Create(typeof(QuoteServiceActor)).WithRouter(new RoundRobinPool(numInsurers)), "ServiceInterrogator");
+            _serviceTimer = new Timer(); // timer with 5 secoond interval
+            _serviceTimer.Elapsed += ServiceTimerElapsed;
+            _serviceTimer.Interval = 5000; // 5 second interval
 
-            Ready();
+            // create a child actor for each insurance service          
+            _quoteServicesPool =
+                Context.ActorOf(
+                    Props.Create(() => new QuoteServiceActor()).WithRouter(new RoundRobinPool(_numInsurers)),
+                    "ServiceInterrogator");
+
+            MessageReceiver();
         }
 
-        private void Ready()
+        void ServiceTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            Receive<SaveQuoteRequest>(req =>
-            {
-                var senderClosure = Sender;
-                ICarQuoteRequestWriter carQuoteRequestWriter = new CarQuoteRequestWriter(_context);
+            // 5 seconds are up
+            _serviceTimer.Stop();
+            _isTimedOut = true;
 
-                carQuoteRequestWriter.AddQuote(req.QuoteRequest).ContinueWith(s => s.Result).PipeTo(senderClosure);
-            });
+            _log.Debug("Timeout Fired!");
+        }
 
+        private void MessageReceiver()
+        {
             Receive<RequestQuotes>(req =>
             {
-                // build the object to post
-                var serviceRequest = new ServiceCarInsuranceQuoteRequest
-                {
-                    QuoteRequestId = req.QuoteRequest.CarQuoteId,
-                    NoClaimsDiscountYears = req.QuoteRequest.NoClaimsDiscountYears.HasValue ? req.QuoteRequest.NoClaimsDiscountYears.Value : 0,
-                    VehicleValue = req.QuoteRequest.VehicleValue.HasValue ? req.QuoteRequest.VehicleValue.Value : 0,
-                    CurrentRegistration = req.VehicleDetails.CurrentRegistration,
-                    DriverAge = req.QuoteRequest.DriverAge.HasValue ? req.QuoteRequest.DriverAge.Value : 0,
-                    ModelDesc = req.VehicleDetails.ModelDesc,
-                    IsImport = req.VehicleDetails.IsImport,
-                    ManufYear = req.VehicleDetails.ManufYear.HasValue ? req.VehicleDetails.ManufYear.Value : 0,
-                };
+                
+                // write the initial request to the db.
+                Task<int> quoteId = _carQuoteRequestWriter.AddQuote(req.QuoteRequest).ContinueWith(s => s.Result);
 
-                // push the service request to the service workers            
-                foreach (var insurer in Enum.GetValues(typeof(Insurer)))
+                _quoteResults.Clear(); // clean down any previous results
+                _isTimedOut = false;
+                _serviceTimer.Start(); // start the timer.
+                _isLoadComplete = false;
+
+                // push the service request message to the service workers            
+                foreach (var insurer in Enum.GetValues(typeof (Insurer)))
                 {
-                    serviceRequest.Insurer = (Insurer)insurer;
-                    _quoteServices.Tell(new GetQuotesFromService(req.ServiceLocation, serviceRequest));
+                    // build the object to post
+                    var serviceRequest = new ServiceCarInsuranceQuoteRequest
+                    {
+                        QuoteRequestId = quoteId.Result, // created quoteId
+                        NoClaimsDiscountYears =
+                            req.QuoteRequest.NoClaimsDiscountYears.HasValue
+                                ? req.QuoteRequest.NoClaimsDiscountYears.Value
+                                : 0,
+                        VehicleValue = req.QuoteRequest.VehicleValue.HasValue ? req.QuoteRequest.VehicleValue.Value : 0,
+                        CurrentRegistration = req.VehicleDetails.CurrentRegistration,
+                        DriverAge = req.QuoteRequest.DriverAge.HasValue ? req.QuoteRequest.DriverAge.Value : 0,
+                        ModelDesc = req.VehicleDetails.ModelDesc,
+                        IsImport = req.VehicleDetails.IsImport,
+                        ManufYear = req.VehicleDetails.ManufYear.HasValue ? req.VehicleDetails.ManufYear.Value : 0,
+                        Insurer = (Insurer) insurer
+                    };
+
+                    _quoteServicesPool.Tell(new GetQuotesFromService(req.ServiceLocation, serviceRequest));
 
                     _log.Debug("Fired Request for {0}", insurer);
                 }
 
+                this.Sender.Tell(quoteId.Result); // pass the quoteId back to the controller
             });
 
+            // Listener for QuoteServices Results. Append to Results Collection and sort as required
             Receive<QuotesReturnedFromService>(req =>
             {
-                 _log.Debug("Appending {0} Logs", req.QuotesFromService.Count);
-               
-                 ICarQuoteResponseWriter carQuoteResponseWriter = new CarQuoteResponseWriter(_context);
-                 carQuoteResponseWriter.AddResponse(req.QuotesFromService);
-            });
+                if (req == null)
+                    return;
 
-            Receive<ListQuotes>(req =>
-            {
-                var senderClosure = Sender;
-                ICarQuoteResponseReader carQuoteResponseReader = new CarQuoteResponseReader(_context);
+                _log.Debug("Appending {0} Logs", req.QuotesFromService.Count);
 
-                carQuoteResponseReader.GetQuoteResponses(req.QuoteId).ContinueWith(s =>
+                _quoteResults.AddRange(req.QuotesFromService);
+                int insurersReturned = _quoteResults.GroupBy(x => x.Insurer).Count();
+
+                // sort the collated results only if all insurers have returned or if
+                // the default 5 second time out has been reached.
+                if ( _isTimedOut || _numInsurers.Equals(insurersReturned)) 
                 {
-                    var quotes = s.Result; // records returned from db.
-                    var cheapestQuotes = quotes
-                                           .GroupBy(x => x.QuoteType)
-                                           .SelectMany(y => y.OrderBy(x => x.QuoteValue)
-                                           .Take(1));
+                    var cheapestQuotes = _quoteResults
+                        .GroupBy(x => x.QuoteType)
+                        .SelectMany(y => y.OrderBy(x => x.QuoteValue)
+                            .Take(1));
 
                     // set ischeapest flag for UI
-                    foreach (var quote in quotes)
+                    foreach (var quote in _quoteResults)
                     {
                         if (cheapestQuotes.Contains(quote))
                         {
                             quote.IsCheapest = true;
                         }
                     }
+                    // persist results and pass the bool result back to this Actor
+                    _carQuoteResponseWriter.AddResponse(_quoteResults).ContinueWith(s => s.Result).PipeTo(Self);  
+                }
+            });
 
-                    return quotes;
+            Receive<bool>(req => { _isLoadComplete = req; }); // success bool piped from write to Db query above
 
-                }).PipeTo(senderClosure);
+            Receive<IsLoadComplete>(req => this.Sender.Tell(_isLoadComplete)); // is Complete Flag set Request
+
+            Receive<ListQuotes>(req => // pass back the complete result set once everything has been persisted.
+            {
+                if (_isLoadComplete)
+                    Sender.Tell(_quoteResults);
+                
+                Sender.Tell(null);
             });
         }
     }

@@ -6,16 +6,7 @@ using Thirdparty.Api.Contracts;
 
 namespace ActorUI.Actors.Messages
 {
-    public class SaveQuoteRequest
-    {
-        public SaveQuoteRequest(CarQuoteRequestDto quoteRequest)
-        {
-            QuoteRequest = quoteRequest;
-        }
-
-        public CarQuoteRequestDto QuoteRequest { get; private set; }
-    }
-
+    
     public class RequestQuotes
     {
         public RequestQuotes(CarQuoteRequestDto request, VehicleDetailsDto vehicle, Uri serviceLocation)
@@ -58,6 +49,11 @@ namespace ActorUI.Actors.Messages
 
         public IReadOnlyList<CarQuoteResponseDto> QuotesFromService;
     }
+
+    /// <summary>
+    /// flag to determine if the quotes are returned and saved
+    /// </summary>
+    public class IsLoadComplete { }
    
     /// <summary>
     /// message to query the database for all quotes for the quoteId

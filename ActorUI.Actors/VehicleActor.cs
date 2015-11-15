@@ -17,12 +17,11 @@ namespace ActorUI.Actors
 {
     public class VehicleActor : ReceiveActor
     {
-        private readonly Entities _entities;
+        private readonly Entities _context;
 
-        public VehicleActor()
+        public VehicleActor(Entities context)
         {
-            _entities = new Entities();
-
+            _context = context;
             Ready();
         }
 
@@ -37,7 +36,7 @@ namespace ActorUI.Actors
             {
                 var senderClosure = Sender;
 
-                IVehicleReader vehicleReader = new VehicleReader(_entities);
+                IVehicleReader vehicleReader = new VehicleReader(_context);
 
                 vehicleReader.GetVehicleByRegNo(req.CarRegNo).ContinueWith(s => s.Result).PipeTo(senderClosure);
             });
@@ -45,7 +44,6 @@ namespace ActorUI.Actors
             Receive<FindCarFromService>(req =>
             {
                 var senderClosure = Sender;
-                var self = Self;
 
                 var uri = string.Format("api/car/{0}", req.CarRegNo);
                 var client = new HttpClient {BaseAddress = req.ServiceLocation};
@@ -74,8 +72,6 @@ namespace ActorUI.Actors
                             VehicleRef = returnedVehicle.Result.VehicleRef
                         };
 
-                      //  self.Tell(new SaveVehicleDetails(vehicle));
-
                         return vehicle;
 
                     }
@@ -90,7 +86,7 @@ namespace ActorUI.Actors
             Receive<SaveVehicleDetails>(req =>
             {
                 var senderClosure = Sender;
-                IVehicleWriter vehicleWriter = new VehicleWriter(_entities);
+                IVehicleWriter vehicleWriter = new VehicleWriter(_context);
 
                 vehicleWriter.AddVehicle(req.Vehicle).ContinueWith(s => s.Result).PipeTo(senderClosure);
             });
