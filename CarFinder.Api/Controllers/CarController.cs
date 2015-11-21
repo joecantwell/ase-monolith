@@ -22,6 +22,9 @@ namespace CarFinder.Api.Controllers
         {
             try
             {
+                if(string.IsNullOrEmpty(id))
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Entry!");
+
                 var vehicle = await Task.FromResult<VehicleMetaData>(CarRegistrationService.GetVehicleByRegistration(id));
 
                 return Request.CreateResponse<VehicleMetaData>(HttpStatusCode.OK, vehicle);
