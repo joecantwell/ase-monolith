@@ -29,7 +29,7 @@ namespace ActorUI.Actors
         private readonly List<CarQuoteResponseDto> _quoteResults = new List<CarQuoteResponseDto>();
         private readonly int _numInsurers = Enum.GetNames(typeof (Insurer)).Length; // no of insurers configured
         private readonly Timer _serviceTimer;
-        private Boolean _isTimedOut, _isLoadComplete;
+        private Boolean _isLoadComplete;
 
         public QuoteCoordinatorActor(Entities context)
         {
@@ -43,31 +43,29 @@ namespace ActorUI.Actors
             // create a child actor for each insurance service          
             _quoteServicesPool =
                 Context.ActorOf(
-                    Props.Create(() => new QuoteServiceActor()).WithRouter(new RoundRobinPool(_numInsurers)),
-                    "ServiceInterrogator");
+                    Props.Create(() => new QuoteServiceActor())
+                         .WithRouter(new RoundRobinPool(_numInsurers)), "ServiceInterrogator");
 
             MessageReceiver();
         }
 
         void ServiceTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            // 5 seconds are up
             _serviceTimer.Stop();
-            _isTimedOut = true;
-
             _log.Debug("Timeout Fired!");
+
+            // tell this actors receiver that the timeout has expired
+            SystemActors.QuoteActor.Tell(new TimedOutOrComplete(isTimedOut: true));
         }
 
         private void MessageReceiver()
         {
             Receive<RequestQuotes>(req =>
-            {
-                
+            {               
                 // write the initial request to the db.
                 Task<int> quoteId = _carQuoteRequestWriter.AddQuote(req.QuoteRequest).ContinueWith(s => s.Result);
 
                 _quoteResults.Clear(); // clean down any previous results
-                _isTimedOut = false;
                 _serviceTimer.Start(); // start the timer.
                 _isLoadComplete = false;
 
@@ -107,12 +105,22 @@ namespace ActorUI.Actors
 
                 _log.Debug("Appending {0} Logs", req.QuotesFromService.Count);
 
-                _quoteResults.AddRange(req.QuotesFromService);
-                int insurersReturned = _quoteResults.GroupBy(x => x.Insurer).Count();
+                _quoteResults.AddRange(req.QuotesFromService);  
 
+                int insurersReturned = _quoteResults.GroupBy(x => x.Insurer).Count();
+                if (_numInsurers.Equals(insurersReturned))
+                    this.Sender.Tell(new TimedOutOrComplete(isComplete: true));
+            });
+
+
+            Receive<TimedOutOrComplete>(req =>
+            {
+                if (req.IsTimedOut && req.IsComplete) // not interested in a response post timeout
+                    return;
+                
                 // sort the collated results only if all insurers have returned or if
                 // the default 5 second time out has been reached.
-                if ( _isTimedOut || _numInsurers.Equals(insurersReturned)) 
+                if (req.IsTimedOut || req.IsComplete)
                 {
                     var cheapestQuotes = _quoteResults
                         .GroupBy(x => x.QuoteType)
@@ -127,7 +135,8 @@ namespace ActorUI.Actors
                             quote.IsCheapest = true;
                         }
                     }
-                    // persist results and pass the bool result back to this Actor
+
+                    // persist results and pass the bool result back to this Actor which will set the IsLoadComplete flag
                     _carQuoteResponseWriter.AddResponse(_quoteResults).ContinueWith(s => s.Result).PipeTo(Self);
                 }
             });

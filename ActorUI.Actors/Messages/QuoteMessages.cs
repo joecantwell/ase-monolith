@@ -56,6 +56,21 @@ namespace ActorUI.Actors.Messages
     /// flag to determine if the quotes are returned and saved
     /// </summary>
     public class IsLoadComplete { }
+
+    /// <summary>
+    /// bool to trigger a db write rather than wait for all services to return
+    /// </summary>
+    public class TimedOutOrComplete
+    {
+        public TimedOutOrComplete(bool isTimedOut = false, bool isComplete = false)
+        {
+            IsTimedOut = isTimedOut;
+            IsComplete = isComplete;
+        }
+
+        public bool IsTimedOut { get; private set; }
+        public bool IsComplete{ get; private set; }
+    }
    
     /// <summary>
     /// message to query the database for all quotes for the quoteId

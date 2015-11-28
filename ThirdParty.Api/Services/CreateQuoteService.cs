@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Cache;
+using System.Runtime.Remoting;
 using System.Threading;
 using Thirdparty.Api.Contracts;
 
@@ -48,8 +49,9 @@ namespace ThirdParty.Api.Services
                     quotePrices.Add(QuoteType.ThirdParty, BuildQuote((decimal)310, request));
                     break;
                 case Insurer.AxaCar:
-                    // Add a further 6 second delay for the Axa Service (Test)
-                    Thread.Sleep(6000);
+                    // Add a further 10 second delay for the Axa Service (Test)
+                  //  throw new ServerException("Forced Exception");
+                  //  Thread.Sleep(10000);
                     quotePrices.Add(QuoteType.Comprehensive, BuildQuote((decimal)420, request));
                     quotePrices.Add(QuoteType.ThirdPartyFireAndTheft, BuildQuote((decimal)350, request));
                     quotePrices.Add(QuoteType.ThirdParty, BuildQuote((decimal)300, request));

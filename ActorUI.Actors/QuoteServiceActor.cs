@@ -28,11 +28,9 @@ namespace ActorUI.Actors
     public class QuoteServiceActor : ReceiveActor
     {
         private readonly ILoggingAdapter _log = Context.GetLogger();
-       // readonly ICarQuoteResponseWriter _carQuoteResponseWriter;
 
         public QuoteServiceActor()
         {
-           //  _carQuoteResponseWriter = new CarQuoteResponseWriter(context);
             ReceiptListener();
         }
 
