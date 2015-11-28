@@ -17,8 +17,8 @@ namespace Broker.Services
     public class CarQuoteService : ICarQuoteService
     {
         private readonly static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        private const double Timeout = 5.0;
-        private const string QuoteEndPoint = "api/carinsurancequote";
+
+        private const double Timeout = 10.0; //in seconds
 
         private readonly ICarQuoteRequestWriter _carQuoteRequestWriter;
         private readonly IRestFactory _restFactory;
@@ -43,104 +43,38 @@ namespace Broker.Services
 
             var gateway = _restFactory.CreateGateway<ServiceCarInsuranceQuoteRequest>(EndPoint.InsuranceService);
 
-            // create a collection to hold all async responses
-            IEnumerable<ServiceCarInsuranceQuoteResponse> allQuotes = new List<ServiceCarInsuranceQuoteResponse>();
+            var tasksToCallService = new List<Task<HttpResponseMessage>>(); // task collection
 
-            var tasksToCallService = new List<Task<HttpResponseMessage>>();
-
+            // create a task for each external service call
             foreach (var insurer in Enum.GetValues(typeof (Insurer)))
-            {
-                // create a task for each external service
+            {                
+                _logger.Trace("Sending Request for {0}", insurer);
+
                 var serviceRequest = BuildServiceRequest((Insurer)insurer, quoteId, request, vehicle);
-                Task<HttpResponseMessage> response = gateway.Post(serviceRequest, QuoteEndPoint);
+                Task<HttpResponseMessage> response = gateway.Post(serviceRequest, "api/carinsurancequote");
 
                 tasksToCallService.Add(response);
             }
  
-        /*
-            // create a task for each external service
-            var serviceRequestAlliance = BuildServiceRequest(Insurer.AllianceDirect, quoteId, request, vehicle);
-            Task<HttpResponseMessage> allianceResponse = gateway.Post(serviceRequestAlliance, QuoteEndPoint);
-
-            var serviceRequestAxa = BuildServiceRequest(Insurer.AxaCar, quoteId, request, vehicle);
-            Task<HttpResponseMessage> axaResponse = gateway.Post(serviceRequestAxa, QuoteEndPoint);
-
-            var serviceRequestFbd = BuildServiceRequest(Insurer.Fbd, quoteId, request, vehicle);
-            Task<HttpResponseMessage> fbdResponse = gateway.Post(serviceRequestFbd, QuoteEndPoint);
-
-            var serviceRequestOneTwoThree = BuildServiceRequest(Insurer.OneTwoThree, quoteId, request, vehicle);
-            Task<HttpResponseMessage> oneTwoThreeResponse = gateway.Post(serviceRequestOneTwoThree, QuoteEndPoint);
-
-            var serviceRequestZurich = BuildServiceRequest(Insurer.ZurichCar, quoteId, request, vehicle);
-            Task<HttpResponseMessage> zurichResponse = gateway.Post(serviceRequestZurich, QuoteEndPoint);
-*/
-            // add timeout handling
-
+            // add timeout handling for each service call
             TimeSpan timeOut = TimeSpan.FromSeconds(Timeout);
             var tasksToComplete = tasksToCallService.Select(serviceCall => Task.WhenAny(serviceCall, Task.Delay(timeOut))).ToList();
-
-            /*
-            TimeSpan timeOut = TimeSpan.FromSeconds(Timeout);
-            Task[] tasksToComplete = 
-            {
-                Task.WhenAny(allianceResponse, Task.Delay(timeOut)),
-                Task.WhenAny(axaResponse, Task.Delay(timeOut)), 
-                Task.WhenAny(fbdResponse, Task.Delay(timeOut)), 
-                Task.WhenAny(oneTwoThreeResponse, Task.Delay(timeOut)), 
-                Task.WhenAny(zurichResponse, Task.Delay(timeOut))
-            };
-            */
 
             // wait for the tasks to complete or timeout
             await Task.WhenAll(tasksToComplete);
 
-            foreach (var response in tasksToCallService)
+            // create a collection to hold all async responses
+            IEnumerable<ServiceCarInsuranceQuoteResponse> allQuotes = new List<ServiceCarInsuranceQuoteResponse>();
+
+            // read and merge the results from successful tasks
+            foreach (var response in tasksToCallService.Where(resp => resp.Status == TaskStatus.RanToCompletion && resp.Result.IsSuccessStatusCode))
             {
                 var quotes = await response.Result.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
                 allQuotes = allQuotes.Concat(quotes);
             }
-
            
-            /*
-
-            if (allianceResponse.Status == TaskStatus.RanToCompletion && allianceResponse.Result.IsSuccessStatusCode )
-            {
-                _logger.Trace("Response from {0}", Insurer.AllianceDirect.ToString());
-                var quotes = await allianceResponse.Result.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
-                allQuotes = allQuotes.Concat(quotes);
-            }
-
-            if (axaResponse.Status == TaskStatus.RanToCompletion && axaResponse.Result.IsSuccessStatusCode)
-            {
-                _logger.Trace("Response from {0}", Insurer.AxaCar.ToString());
-                var quotes = await axaResponse.Result.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
-                allQuotes = allQuotes.Concat(quotes);
-            }
-
-            if (fbdResponse.Status == TaskStatus.RanToCompletion && fbdResponse.Result.IsSuccessStatusCode)
-            {
-                _logger.Trace("Response from {0}", Insurer.Fbd.ToString());
-                var quotes = await fbdResponse.Result.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
-                allQuotes = allQuotes.Concat(quotes);
-            }
-
-            if (oneTwoThreeResponse.Status == TaskStatus.RanToCompletion && oneTwoThreeResponse.Result.IsSuccessStatusCode)
-            {
-                _logger.Trace("Response from {0}", Insurer.OneTwoThree.ToString());
-                var quotes = await oneTwoThreeResponse.Result.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
-                allQuotes = allQuotes.Concat(quotes);
-            }
-
-            if (zurichResponse.Status == TaskStatus.RanToCompletion && zurichResponse.Result.IsSuccessStatusCode)
-            {
-                _logger.Trace("Response from {0}", Insurer.ZurichCar.ToString());
-                var quotes = await zurichResponse.Result.Content.ReadAsAsync<IEnumerable<ServiceCarInsuranceQuoteResponse>>();
-                allQuotes = allQuotes.Concat(quotes);
-            }
-            
-
             // Valid but slower alternative (await after each call == sync approach)
-           
+            /*
             foreach (var insurer in Enum.GetValues(typeof(Insurer)))
             {
                 // build the object to post
