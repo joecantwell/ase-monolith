@@ -8,8 +8,8 @@
         <EntityTypeShape EntityType="INSUREME2.CarInsuranceQuoteRequest" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="INSUREME2.CarInsuranceQuoteResponse" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="INSUREME2.VehicleDetail" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="INSUREME2.County" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="INSUREME2.Town" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="INSUREME2.County" Width="1.5" PointX="1.625" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="INSUREME2.Town" Width="1.5" PointX="12.375" PointY="5.75" IsExpanded="true" />
         <AssociationConnector Association="INSUREME2.FK_CarInsuranceQuoteRequest_Counties" ManuallyRouted="false" />
         <AssociationConnector Association="INSUREME2.FK_CarInsuranceQuoteRequest_VehicleDetails" ManuallyRouted="false" />
         <AssociationConnector Association="INSUREME2.FK_CarInsuranceQuoteResponse_CarInsuranceQuoteRequest" ManuallyRouted="false" />

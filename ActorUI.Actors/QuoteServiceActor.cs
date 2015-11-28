@@ -16,9 +16,7 @@ using ActorUI.Actors.Messages;
 using Akka.Actor;
 using Akka.Event;
 using AutoMapper;
-using Broker.Domain.Commands;
 using Broker.Domain.Models;
-using Broker.Persistance;
 using Thirdparty.Api.Contracts;
 
 namespace ActorUI.Actors
@@ -62,18 +60,6 @@ namespace ActorUI.Actors
 
                 }).PipeTo(senderClosure);    
             });
-
-            // Listener for QuoteServices Results
-            /*
-            Receive<QuotesReturnedFromService>(req => 
-            {
-                if (req == null)
-                    return;
-                   
-                _log.Debug("Appending {0} Logs", req.QuotesFromService.Count);            
-                _carQuoteResponseWriter.AddResponse(req.QuotesFromService);              
-            });
-             */
         }
     }
 }

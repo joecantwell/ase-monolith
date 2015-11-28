@@ -128,7 +128,7 @@ namespace ActorUI.Actors
                         }
                     }
                     // persist results and pass the bool result back to this Actor
-                    _carQuoteResponseWriter.AddResponse(_quoteResults).ContinueWith(s => s.Result).PipeTo(Self);  
+                    _carQuoteResponseWriter.AddResponse(_quoteResults).ContinueWith(s => s.Result).PipeTo(Self);
                 }
             });
 

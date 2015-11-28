@@ -3,7 +3,7 @@
   <Role name="CarFinder.Api">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=findmycar;AccountKey=gLO+dOzWQ9DuOH9QTrmBCP2apSH0EXcePjOIyanDoKPjnJzQOfg/9i0NCtOs/BmoFohsKnZ+P7WHsQ86XPmBpA==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

@@ -48,6 +48,8 @@ namespace ThirdParty.Api.Services
                     quotePrices.Add(QuoteType.ThirdParty, BuildQuote((decimal)310, request));
                     break;
                 case Insurer.AxaCar:
+                    // Add a further 6 second delay for the Axa Service (Test)
+                    Thread.Sleep(6000);
                     quotePrices.Add(QuoteType.Comprehensive, BuildQuote((decimal)420, request));
                     quotePrices.Add(QuoteType.ThirdPartyFireAndTheft, BuildQuote((decimal)350, request));
                     quotePrices.Add(QuoteType.ThirdParty, BuildQuote((decimal)300, request));

@@ -6,7 +6,9 @@ using Thirdparty.Api.Contracts;
 
 namespace ActorUI.Actors.Messages
 {
-    
+    /// <summary>
+    /// Message for initial call to the start the quote process
+    /// </summary>
     public class RequestQuotes
     {
         public RequestQuotes(CarQuoteRequestDto request, VehicleDetailsDto vehicle, Uri serviceLocation)
