@@ -26,6 +26,8 @@ namespace ActorUI.Actors
         private readonly ICarQuoteResponseWriter _carQuoteResponseWriter;
         private readonly ICarQuoteRequestWriter _carQuoteRequestWriter;
 
+        private const double Timeout = 10.0; // timrout in seconds
+
         private readonly List<CarQuoteResponseDto> _quoteResults = new List<CarQuoteResponseDto>();
         private readonly int _numInsurers = Enum.GetNames(typeof (Insurer)).Length; // no of insurers configured
         private readonly Timer _serviceTimer;
@@ -36,9 +38,9 @@ namespace ActorUI.Actors
             _carQuoteResponseWriter = new CarQuoteResponseWriter(context);
             _carQuoteRequestWriter = new CarQuoteRequestWriter(context);
 
-            _serviceTimer = new Timer(); // timer with 5 secoond interval
+            _serviceTimer = new Timer();
             _serviceTimer.Elapsed += ServiceTimerElapsed;
-            _serviceTimer.Interval = 5000; // 5 second interval
+            _serviceTimer.Interval = Timeout * 1000; // 10 second interval (in milliseconds)
 
             // create a child actor for each insurance service          
             _quoteServicesPool =
@@ -119,7 +121,7 @@ namespace ActorUI.Actors
                     return;
                 
                 // sort the collated results only if all insurers have returned or if
-                // the default 5 second time out has been reached.
+                // the time out has been reached.
                 if (req.IsTimedOut || req.IsComplete)
                 {
                     var cheapestQuotes = _quoteResults

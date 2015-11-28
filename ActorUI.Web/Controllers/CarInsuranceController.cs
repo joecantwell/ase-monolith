@@ -75,7 +75,7 @@ namespace ActorUI.Web.Controllers
         public async Task<ActionResult> Details(int id)
         {
             // Sit here for a max of n seconds and wait for the quote results to be persisted 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 15; i++)
             {
                 Thread.Sleep(1000);
                 bool isPersistedSuccessfully = await SystemActors.QuoteActor.Ask<bool>(new IsLoadComplete());
