@@ -60,7 +60,9 @@ namespace ActorUI.Web.Controllers
                 model.CarQuoteRequest.VehicleRef = model.Vehicle.VehicleRef;
 
                 // populate the database & query the external services for quotes
-                model.CarQuoteRequest.CarQuoteId = await SystemActors.QuoteActor.Ask<int>(new RequestQuotes(model.CarQuoteRequest, model.Vehicle, _systemConfiguration.ServicesBaseUri));
+                var quoteRequestMsg = new RequestQuotes(model.CarQuoteRequest, model.Vehicle,
+                                                                                _systemConfiguration.ServicesBaseUri);
+                model.CarQuoteRequest.CarQuoteId = await SystemActors.QuoteActor.Ask<int>(quoteRequestMsg);
 
             }
             catch (Exception e)
